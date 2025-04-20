@@ -79,16 +79,16 @@
 
 
 
-<meta name="description" content="介绍： 编写md格式文件，使用 Hexo 渲染成静态网页文件，用git上传至github仓库（仓库名即用户名），可由 仓库名.github.io 地址访问。 一. 初次使用： 环境准备： git node（版本14.0.0+）  Hexo安装： 1npm install -g hexo-cli    初始化框架, 创建工作文件夹test: 12npm init test;npm install;">
+<meta name="description" content="介绍： 编写md格式文件，使用 Hexo 渲染成静态网页文件，用git上传至github仓库（仓库名即用户名），可由 仓库名.github.io 地址访问。   一. 初次使用： 环境准备： git node（版本14.0.0+）   Hexo安装： 1npm install -g hexo-cli    初始化框架, 创建工作文件夹test: 12npm init test;npm instal">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GitHub Page + Hexo 创建个人博客">
 <meta property="og:url" content="http://example.com/2025/04/14/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/index.html">
 <meta property="og:site_name" content="蝉">
-<meta property="og:description" content="介绍： 编写md格式文件，使用 Hexo 渲染成静态网页文件，用git上传至github仓库（仓库名即用户名），可由 仓库名.github.io 地址访问。 一. 初次使用： 环境准备： git node（版本14.0.0+）  Hexo安装： 1npm install -g hexo-cli    初始化框架, 创建工作文件夹test: 12npm init test;npm install;">
+<meta property="og:description" content="介绍： 编写md格式文件，使用 Hexo 渲染成静态网页文件，用git上传至github仓库（仓库名即用户名），可由 仓库名.github.io 地址访问。   一. 初次使用： 环境准备： git node（版本14.0.0+）   Hexo安装： 1npm install -g hexo-cli    初始化框架, 创建工作文件夹test: 12npm init test;npm instal">
 <meta property="og:locale">
 <meta property="og:image" content="http://example.com/images/menu.png">
 <meta property="article:published_time" content="2025-04-14T09:43:45.494Z">
-<meta property="article:modified_time" content="2025-04-16T13:47:27.974Z">
+<meta property="article:modified_time" content="2025-04-20T06:58:35.121Z">
 <meta property="article:author" content="蝉">
 <meta property="article:tag" content="创建博客">
 <meta property="article:tag" content="hexo">
@@ -356,95 +356,117 @@
 
       
         <p>介绍： 编写md格式文件，使用 <em><strong>Hexo</strong></em> 渲染成静态网页文件，用<em><strong>git</strong></em>上传至github仓库（仓库名即用户名），可由 <em><strong>仓库名.github.io</strong></em> 地址访问。</p>
+<br>
+
 <h4 id="一-初次使用："><a href="#一-初次使用：" class="headerlink" title="一. 初次使用："></a>一. 初次使用：</h4><ol>
 <li><p>环境准备：</p>
 <p>git</p>
 <p>node（版本14.0.0+）</p>
+<br>
 </li>
 <li><p>Hexo安装：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
 
-
+<br>
 </li>
 <li><p>初始化框架, 创建工作文件夹test:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm init test;</span><br><span class="line">npm install; // 安装框架所需</span><br></pre></td></tr></table></figure>
 
-
+<br>
 </li>
 <li><p>生成静态网页</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br></pre></td></tr></table></figure></li>
+</ol>
+<br>
 
-
-</li>
+<ol start="5">
 <li><p>启动服务</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo s</span><br></pre></td></tr></table></figure></li>
 </ol>
+<br>
+
 <p>​	访问 127.0.0.1:4000 查看页面效果。</p>
+<br>
+
+<br>
+
 <h4 id="二-Next主题"><a href="#二-Next主题" class="headerlink" title="二. Next主题:"></a>二. Next主题:</h4><ol>
 <li><p>下载next主题：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd test</span><br><span class="line">git clone https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
 
-
+<br>
 </li>
 <li><p>_config.yml 文件找到 theme, 更改：</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">next</span></span><br></pre></td></tr></table></figure>
 
-
+<br>
 </li>
 <li><p>选择主题形式： 在&#x2F;theme&#x2F;next&#x2F;_config.yml找到 scheme</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Schemes</span></span><br><span class="line"><span class="comment"># scheme: Muse</span></span><br><span class="line"><span class="comment"># scheme: Mist</span></span><br><span class="line"><span class="comment"># scheme: Pisces</span></span><br><span class="line"><span class="attr">scheme:</span> <span class="string">Gemini</span>  <span class="comment"># 推荐</span></span><br></pre></td></tr></table></figure>
 
-
+<br>
 </li>
 <li><p>设置语言：在_config.yml中找到 language， 设置：</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">language:</span> <span class="string">zh-Hans</span> <span class="comment"># 默认en</span></span><br></pre></td></tr></table></figure>
 
-
+<br>
 </li>
 <li><p>设置菜单： 在&#x2F;theme&#x2F;next&#x2F;_config.yml找到 menu</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">menu:</span></span><br><span class="line">  <span class="attr">home:</span> <span class="string">/</span>              <span class="comment"># 首页</span></span><br><span class="line">  <span class="attr">archives:</span> <span class="string">/archives</span>  <span class="comment"># 归档</span></span><br><span class="line">  <span class="comment">#about: /about</span></span><br><span class="line">  <span class="comment">#categories: /categories</span></span><br><span class="line">  <span class="comment">#tags: /tags</span></span><br><span class="line">  <span class="comment">#commonweal: /404.html</span></span><br></pre></td></tr></table></figure>
 
-
+<br>
 
 <p><img src="/images/menu.png" alt="menu"></p>
+<br>
+
 <p>若你的站点运行在子目录中，请将链接前缀的 &#x2F; 去掉</p>
 </li>
 </ol>
+<br>
+
+<br>
+
 <h4 id="三-修改个人信息"><a href="#三-修改个人信息" class="headerlink" title="三. 修改个人信息"></a>三. 修改个人信息</h4><ol>
 <li><p>编辑_config.yml， 设置author，title,  subtitle, description等:</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Site</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">yourTitle</span>   <span class="comment">#标题</span></span><br><span class="line"><span class="attr">subtitle:</span> <span class="string">&#x27;&#x27;</span>       <span class="comment">#副标题</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="attr">keywords:</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">you</span>        <span class="comment">#作者</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">zh-Hans</span>  <span class="comment">#语言</span></span><br><span class="line"><span class="attr">timezone:</span> <span class="string">&#x27;Asia/Shanghai&#x27;</span> <span class="comment">#时区</span></span><br></pre></td></tr></table></figure>
 
-
+<br>
 </li>
 <li><p>设置头像： 在source文件夹下创建 image文件夹，放置图片</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">avatar:</span> <span class="string">/images/博客头像.png</span>  <span class="comment"># /images/图片.png   图片的格式 </span></span><br></pre></td></tr></table></figure></li>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">avatar:</span> <span class="string">/images/博客头像.png</span>  <span class="comment"># /images/图片.png   图片的格式 </span></span><br></pre></td></tr></table></figure>
+
+<br></li>
 </ol>
+<br>
+
 <h4 id="四-编写文章"><a href="#四-编写文章" class="headerlink" title="四. 编写文章"></a>四. 编写文章</h4><p>编写md格式文章，放在 source&#x2F;_posts 文件夹下</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;post title&quot; # 创建文章，默认md格式</span><br><span class="line">host g  # 全部原文章渲染到public静态目录</span><br></pre></td></tr></table></figure>
 
+<br>
 
-
-
+<br>
 
 <h4 id="五-上传至github"><a href="#五-上传至github" class="headerlink" title="五. 上传至github"></a>五. 上传至github</h4><ol>
 <li><p>安装一键部署插件：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
 
-
+<br>
 </li>
 <li><p>_config.yml中添加部署配置：</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">git@github.com:&lt;username&gt;/&lt;project&gt;</span></span><br><span class="line">  <span class="comment">#example,https://github.com/hexojs/hexojs.github.io</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span>  <span class="comment"># 上传github仓库分支，可更改</span></span><br></pre></td></tr></table></figure>
 
-
+<br>
 </li>
 <li><p>上传：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 
-
+<br>
 </li>
 <li><p>访问地址：yourUserName.github.io  (注意你上传的仓库名和你的github的用户名必须相同！)</p>
 </li>
 </ol>
+<br>
+
 <p>恭喜你已经创建了属于你的博客。</p>
 
       
