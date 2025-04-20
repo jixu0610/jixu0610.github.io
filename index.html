@@ -313,8 +313,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/cloud-service/" itemprop="url" rel="index">
-                    <span itemprop="name">cloud_service</span>
+                  <a href="/categories/%E4%BA%91%E6%9C%8D%E5%8A%A1/" itemprop="url" rel="index">
+                    <span itemprop="name">云服务</span>
                   </a>
                 </span>
 
@@ -324,8 +324,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/cloud-service/aliyun-OSS/" itemprop="url" rel="index">
-                    <span itemprop="name">aliyun-OSS</span>
+                  <a href="/categories/%E4%BA%91%E6%9C%8D%E5%8A%A1/%E9%98%BF%E9%87%8C%E4%BA%91OSS/" itemprop="url" rel="index">
+                    <span itemprop="name">阿里云OSS</span>
                   </a>
                 </span>
 
@@ -373,7 +373,9 @@ springboot如何介入aliyun OSS服务呢?  那么现在开始吧
 
 
 首先是在 springboot 配置文件 application.yml 中加入以下:
-123456aliyun:  oss:    endpoint: oss-cn-beijing.aliyuncs.com    access-key-id: LTAI5tEJXdvgirE71b6sTP7
+123456aliyun:  oss:    endpoint:    access-key-id:    access-key-secret:    bucket-name:
+
+这是我的配置哈，需要注册
           ...
           <!--noindex-->
           <div class="post-button text-center">
