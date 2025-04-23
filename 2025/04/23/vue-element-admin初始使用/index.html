@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="vue," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="介绍： 初始搭建是在后端的访问权限模块完成之后进行的，主要内容为登录退出，菜单路由导航这两部分，构建一个大体框架，之后内容的编写就只需注重内容本身即可。   一. vue-element-admin安装    二.后端 用户登录获取该用户信息(id, 用户名, 头像, 角色名称数组) 12345678910111213141516171819202122@GetMapping(&quot;&#x2F;get">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue-element-admin初始搭建">
+<meta property="og:url" content="http://example.com/2025/04/23/vue-element-admin%E5%88%9D%E5%A7%8B%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="蝉">
+<meta property="og:description" content="介绍： 初始搭建是在后端的访问权限模块完成之后进行的，主要内容为登录退出，菜单路由导航这两部分，构建一个大体框架，之后内容的编写就只需注重内容本身即可。   一. vue-element-admin安装    二.后端 用户登录获取该用户信息(id, 用户名, 头像, 角色名称数组) 12345678910111213141516171819202122@GetMapping(&quot;&#x2F;get">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-04-23T02:49:22.938Z">
+<meta property="article:modified_time" content="2025-04-23T09:32:46.185Z">
+<meta property="article:author" content="蝉">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2025/04/23/vue-element-admin初始使用/"/>
+
+
+
+
+
+  <title>vue-element-admin初始搭建 | 蝉</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">蝉</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">java工程师</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tag">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            tag
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/04/23/vue-element-admin%E5%88%9D%E5%A7%8B%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/%E5%8D%9A%E5%AE%A2%E5%A4%B4%E5%83%8F.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蝉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">vue-element-admin初始搭建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-04-23T10:49:22+08:00">
+                2025-04-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index">
+                    <span itemprop="name">java项目</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E9%A1%B9%E7%9B%AE/%E6%B1%BD%E8%BD%A6%E7%A7%9F%E8%B5%81%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
+                    <span itemprop="name">汽车租赁管理系统</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>介绍： 初始搭建是在后端的访问权限模块完成之后进行的，主要内容为登录退出，菜单路由导航这两部分，构建一个大体框架，之后内容的编写就只需注重内容本身即可。</p>
+<br>
+
+<h3 id="一-vue-element-admin安装"><a href="#一-vue-element-admin安装" class="headerlink" title="一. vue-element-admin安装"></a>一. <a target="_blank" rel="noopener" href="https://panjiachen.github.io/vue-element-admin-site/zh/guide/#%E5%AE%89%E8%A3%85">vue-element-admin安装</a></h3><br>
+
+<br>
+
+<h3 id="二-后端"><a href="#二-后端" class="headerlink" title="二.后端"></a>二.后端</h3><ol>
+<li><p>用户登录获取该用户信息(id, 用户名, 头像, 角色名称数组)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/getInfo&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">getUserInfo</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 从securityContextHolder上下文中获取认证信息</span></span><br><span class="line">    <span class="type">Authentication</span> <span class="variable">authentication</span> <span class="operator">=</span></span><br><span class="line">        SecurityContextHolder.getContext().getAuthentication();</span><br><span class="line">    <span class="keyword">if</span> (authentication == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> Result.fail().setMessage(<span class="string">&quot;认证信息为空&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> (User) authentication.getPrincipal();</span><br><span class="line">    <span class="comment">// 查询用户角色名称</span></span><br><span class="line">    <span class="comment">/*List&lt;String&gt; list = userService.selectRoleName(user.getId());</span></span><br><span class="line"><span class="comment">       Object[] array = list.toArray(); */</span><span class="comment">// 将角色名称列表转换为数组</span></span><br><span class="line">    List&lt;Permission&gt; permissionList = user.getPermissionList();</span><br><span class="line">    Object[] array = permissionList.stream().filter(Objects::nonNull)</span><br><span class="line">        .map(Permission::getPermissionCode)</span><br><span class="line">        .toArray();</span><br><span class="line">    <span class="comment">// 创建并填充用户信息视图对象</span></span><br><span class="line">    <span class="type">UserInfoVo</span> <span class="variable">userInfoVo</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UserInfoVo</span>(user.getId(),</span><br><span class="line">                                           user.getUsername(),</span><br><span class="line">                                           user.getAvatar(), user.getNickname(), array);</span><br><span class="line">    <span class="keyword">return</span> Result.success(userInfoVo).setMessage(<span class="string">&quot;获取用户信息成功&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意角色数组要用 Permission 中的 permissionCode</p>
+<br>
+</li>
+<li><p>参照<strong>router-&gt;index.js</strong>中的路由选项，编写<strong>routerVO</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&#x27;/error&#x27;</span>,</span><br><span class="line">    <span class="attr">component</span>: <span class="title class_">Layout</span>,</span><br><span class="line">    <span class="attr">redirect</span>: <span class="string">&#x27;noRedirect&#x27;</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;ErrorPages&#x27;</span>,</span><br><span class="line">    <span class="attr">meta</span>: &#123;</span><br><span class="line">      <span class="attr">title</span>: <span class="string">&#x27;Error Pages&#x27;</span>,</span><br><span class="line">      <span class="attr">icon</span>: <span class="string">&#x27;404&#x27;</span>,</span><br><span class="line">      <span class="attr">roles</span>: [<span class="string">&#x27;admin&#x27;</span>, <span class="string">&#x27;editor&#x27;</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">children</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">path</span>: <span class="string">&#x27;401&#x27;</span>,</span><br><span class="line">        <span class="attr">component</span>: <span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&#x27;@/views/error-page/401&#x27;</span>),</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;Page401&#x27;</span>,</span><br><span class="line">        <span class="attr">meta</span>: &#123; <span class="attr">title</span>: <span class="string">&#x27;401&#x27;</span>, <span class="attr">noCache</span>: <span class="literal">true</span> &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">path</span>: <span class="string">&#x27;404&#x27;</span>,</span><br><span class="line">        <span class="attr">component</span>: <span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&#x27;@/views/error-page/404&#x27;</span>),</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;Page404&#x27;</span>,</span><br><span class="line">        <span class="attr">meta</span>: &#123; <span class="attr">title</span>: <span class="string">&#x27;404&#x27;</span>, <span class="attr">noCache</span>: <span class="literal">true</span> &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@JsonInclude(JsonInclude.Include.NON_EMPTY)</span> <span class="comment">// 注意加上该注解，不序列化空children</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RouteVO</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String path;</span><br><span class="line">    <span class="keyword">private</span> String component;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> Boolean alwaysShow;</span><br><span class="line">    <span class="keyword">private</span> Meta meta;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;RouteVO&gt; children;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Data</span></span><br><span class="line">    <span class="meta">@NoArgsConstructor</span></span><br><span class="line">    <span class="meta">@AllArgsConstructor</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Meta</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> String title;</span><br><span class="line">        <span class="keyword">private</span> String icon;</span><br><span class="line">        <span class="keyword">private</span> String[] roles;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+</li>
+<li><p>根据权限列表，经过路由菜单工具类获取路由信息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/menuList&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">getMenuList</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">//获取当前用户信息</span></span><br><span class="line">    <span class="type">Authentication</span> <span class="variable">authentication</span> <span class="operator">=</span></span><br><span class="line">        SecurityContextHolder.getContext().getAuthentication();</span><br><span class="line">    <span class="keyword">if</span> (authentication == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> Result.fail().setMessage(<span class="string">&quot;认证信息为空&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> (User) authentication.getPrincipal();</span><br><span class="line">    <span class="comment">//获取用户的权限列表</span></span><br><span class="line">    List&lt;Permission&gt; permissionList = user.getPermissionList();</span><br><span class="line">    <span class="comment">//获取用户的菜单</span></span><br><span class="line">    <span class="comment">//将permission_type为2的按钮移除，不需要生成对应的菜单</span></span><br><span class="line">    permissionList.removeIf(permission -&gt;</span><br><span class="line">                            Objects.equals(permission.getPermissionType(), <span class="number">2</span>));</span><br><span class="line">    List&lt;RouteVO&gt; routeVOList =</span><br><span class="line">        RouteTreeUtils.buildRouteTree(permissionList, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> Result.success(routeVOList).setMessage(<span class="string">&quot;获取菜单列表成功&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+</li>
+<li><p>退出登录接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/logout&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">logout</span><span class="params">(HttpServletRequest request, HttpServletResponse</span></span><br><span class="line"><span class="params">                     response)</span>&#123;</span><br><span class="line">    String token=request.getHeader(<span class="string">&quot;token&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (StrUtil.isEmpty(token))&#123;</span><br><span class="line">        token=request.getParameter(<span class="string">&quot;token&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">Authentication</span> <span class="variable">authentication</span> <span class="operator">=</span></span><br><span class="line">        SecurityContextHolder.getContext().getAuthentication();</span><br><span class="line">    <span class="keyword">if</span> (authentication!=<span class="literal">null</span>)&#123;</span><br><span class="line">        <span class="comment">//用户一旦登出系统，则清除redis中的token</span></span><br><span class="line">        redisUtils.del(<span class="string">&quot;token:&quot;</span>+token);</span><br><span class="line">        <span class="type">SecurityContextLogoutHandler</span> <span class="variable">handler</span> <span class="operator">=</span> <span class="keyword">new</span></span><br><span class="line">            <span class="title class_">SecurityContextLogoutHandler</span>();</span><br><span class="line">        handler.logout(request,response,authentication);</span><br><span class="line">        <span class="keyword">return</span> Result.success().setMessage(<span class="string">&quot;登出成功&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Result.fail().setMessage(<span class="string">&quot;登出失败&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+</li>
+<li><p>这个时候后端就完成了，总结以下后端完成内容吧🎃：</p>
+<p>（1）获取用户信息  （2）获取路由信息   （3）退出登录</p>
+</li>
+</ol>
+<br>
+
+<br>
+
+<h3 id="三-前端之登录退出"><a href="#三-前端之登录退出" class="headerlink" title="三.前端之登录退出"></a>三.前端之登录退出</h3><br>
+
+<ol>
+<li>好的，我们现在开始前端部分，首先是前端登录：先稍微修改一下前端页面😁，然后就有一个问题了，怎么让前端发送登录请求到后端呢？我们来解决：</li>
+</ol>
+<br>
+
+<p>（1）先修改以下开发环境**.env.development<strong>和生产环境</strong>.env.production**的文件：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">VUE_APP_BASE_API</span> = <span class="string">&#x27;http://localhost:8888/&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>（2） 然后修改发送请求的文件<strong>request.js</strong>:</p>
+<br>
+
+<p>​	安装qs依赖，实现参数序列化处理：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install qs</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>​	修改service，用 <strong>process.env.VUE_APP_BASE_API</strong> 来表示要发送的服务器及其端口</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// create an axios instance</span></span><br><span class="line"><span class="keyword">const</span> service = axios.<span class="title function_">create</span>(&#123;</span><br><span class="line">    <span class="attr">baseURL</span>: process.<span class="property">env</span>.<span class="property">VUE_APP_BASE_API</span>, <span class="comment">// url = base url + request url</span></span><br><span class="line">    <span class="comment">// withCredentials: true, // send cookies when cross-domain requests</span></span><br><span class="line">    <span class="attr">timeout</span>: <span class="number">5000</span> <span class="comment">// request timeout</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 接下来就是request拦截, 在Header中放置token</span></span><br><span class="line"><span class="comment">// response拦截，判断响应code来做处理</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义requestHttp,用于发送请求：get, post, put, delete, upload, login</span></span><br><span class="line"><span class="comment">// 下面以post为例：</span></span><br><span class="line"><span class="title function_">post</span>(<span class="params">url,params</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> service.<span class="title function_">post</span>(</span><br><span class="line">        url, params, &#123;</span><br><span class="line">            <span class="attr">transformRequest</span>: [<span class="function">(<span class="params">params</span>) =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(params)</span><br><span class="line">            &#125;],</span><br><span class="line">            <span class="attr">headers</span>: &#123;</span><br><span class="line">                <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// service的post方法发送的url参数和自身定义时的baseUrl相结合。</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>好的，我们来总结一下发送请求的问题吧，发送请求的方式是<strong>Axios</strong>，定义<strong>service</strong>时设置<strong>baseURL</strong>为服务器及其端口，后续调用service方法请求时，传入请求路径（在baseURL的基础上）和参数即可。</p>
+<br>
+
+<p>（3）我们搞清楚请求路径之后就可以在<strong>api&#x2F;user.js</strong>中定义请求方法用于获取用户信息和路由信息了</p>
+<br>
+
+<p>（4） 登录的最后部分，还有一些小细节需要修改╰(<em>°▽°</em>)╯： 返回的token需要存储呀：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; getToken, setToken, removeToken &#125; <span class="keyword">from</span> <span class="string">&#x27;@/utils/auth&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> state = &#123;</span><br><span class="line">  <span class="attr">token</span>: <span class="title function_">getToken</span>(),</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="attr">avatar</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="attr">introduction</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="attr">roles</span>: [],</span><br><span class="line">  <span class="attr">createrId</span>: <span class="string">&#x27;&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mutations = &#123;</span><br><span class="line">  <span class="attr">SET_TOKEN</span>: <span class="function">(<span class="params">state, token</span>) =&gt;</span> &#123;</span><br><span class="line">    state.<span class="property">token</span> = token</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// user login</span></span><br><span class="line"><span class="title function_">login</span>(<span class="params">&#123; commit &#125;, userInfo</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; username, password &#125; = userInfo</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="title function_">login</span>(&#123; <span class="attr">username</span>: username.<span class="title function_">trim</span>(), <span class="attr">password</span>: password &#125;).<span class="title function_">then</span>(<span class="function"><span class="params">response</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> &#123; token &#125; = response</span><br><span class="line">            <span class="title function_">commit</span>(<span class="string">&#x27;SET_TOKEN&#x27;</span>, token)</span><br><span class="line">            <span class="title function_">setToken</span>(token)</span><br><span class="line">            <span class="title function_">resolve</span>()</span><br><span class="line">        &#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">error</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="title function_">reject</span>(error)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>登录成功后，<strong>state</strong>就可以存储user信息了</p>
+<br>
+
+<br>
+
+<ol start="2">
+<li><p>那么接下来就是退出登录了:</p>
+<br>
+
+<p>（1）在 api&#x2F;user.js 中定义退出方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">logout</span>(<span class="params">param</span>)&#123;</span><br><span class="line"> <span class="keyword">return</span> <span class="keyword">await</span> requestHttp.<span class="title function_">post</span>(<span class="string">&#x27;/rental/auth/logout&#x27;</span>,param)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>（2）在 utils&#x2F;auth.js 中定义清除 sessionStorage 方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">removeSessionStoreage</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">sessionStorage</span>.<span class="title function_">clear</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>（3） 修改 layout&#x2F;components&#x2F;Navbar.vue 文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;logout&#125; <span class="keyword">from</span> <span class="string">&#x27;@/api/user&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123;getToken, removeToken, removeSessionStorage&#125; <span class="keyword">from</span> <span class="string">&#x27;@/utils/auth&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="title function_">logout</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="comment">//修改logout方法</span></span><br><span class="line">     <span class="comment">//await this.$store.dispatch(&#x27;user/logout&#x27;)</span></span><br><span class="line">     <span class="comment">//this.$router.push(`/login?redirect=$&#123;this.$route.fullPath&#125;`)</span></span><br><span class="line">     <span class="variable language_">this</span>.$confirm(<span class="string">&#x27;确定退出系统吗?&#x27;</span>, <span class="string">&#x27;提示&#x27;</span>, &#123;</span><br><span class="line">       <span class="attr">confirmButtonText</span>: <span class="string">&#x27;确定&#x27;</span>,</span><br><span class="line">       <span class="attr">cancelButtonText</span>: <span class="string">&#x27;取消&#x27;</span>,</span><br><span class="line">       <span class="attr">type</span>: <span class="string">&#x27;warning&#x27;</span></span><br><span class="line">    &#125;).<span class="title function_">then</span>(<span class="title function_">async</span>() =&gt; &#123;</span><br><span class="line">       <span class="keyword">let</span> token = &#123; <span class="attr">token</span>: getToken &#125;    <span class="comment">// 获取token</span></span><br><span class="line">       <span class="keyword">let</span> res = <span class="keyword">await</span> <span class="title function_">logout</span>(token)      <span class="comment">// 调用退出登录方法</span></span><br><span class="line">       <span class="keyword">if</span> (res.<span class="property">success</span>)&#123;</span><br><span class="line">         <span class="title function_">removeToken</span>()	<span class="comment">// 去除token</span></span><br><span class="line">         <span class="title function_">removeSessionStoreage</span>()    <span class="comment">// 清除SessionStoreage    </span></span><br><span class="line">         <span class="variable language_">this</span>.<span class="property">$router</span>.<span class="title function_">push</span>(<span class="string">`/login?redirect=<span class="subst">$&#123;<span class="variable language_">this</span>.$route.fullPath&#125;</span>`</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;).<span class="title function_">catch</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">       <span class="variable language_">this</span>.$message(&#123;</span><br><span class="line">         <span class="attr">type</span>: <span class="string">&#x27;info&#x27;</span>,</span><br><span class="line">         <span class="attr">message</span>: <span class="string">&#x27;已取消退出&#x27;</span></span><br><span class="line">      &#125;);</span><br><span class="line">   &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<br>
+
+<h3 id="前端之动态路由菜单"><a href="#前端之动态路由菜单" class="headerlink" title="前端之动态路由菜单"></a>前端之动态路由菜单</h3><p>登录时获取了用户信息和路由信息，其中用户信息存储在 store&#x2F;modules&#x2F;user.js 的state中，而获取的路由信息得转化为动态路由菜单，好的，现在我们来开始这一部分：</p>
+<br>
+
+<ol>
+<li><p>在 api&#x2F;user.js 中，写获取菜单的方法:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">getMenuList</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> requestHttp.<span class="title function_">get</span>(<span class="string">&#x27;/rental/auth/menuList&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+</li>
+<li><p>修改 store&#x2F;permission.js 文件，实现动态路由菜单</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> actions = &#123;</span><br><span class="line">    <span class="title function_">generateRoutes</span>(<span class="params">&#123; commit &#125;, roles</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="title function_">getMenuList</span>().<span class="title function_">then</span>(<span class="function"><span class="params">response</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (response.<span class="property">code</span> === <span class="number">200</span>) &#123;</span><br><span class="line">                    <span class="keyword">const</span> accessedRoutes = <span class="title function_">filterAsyncRoutes</span>(response.<span class="property">data</span>, roles)</span><br><span class="line">                    <span class="title function_">commit</span>(<span class="string">&#x27;SET_ROUTES&#x27;</span>, accessedRoutes)</span><br><span class="line">                    <span class="title function_">resolve</span>(accessedRoutes)  <span class="comment">// 进行索引导航</span></span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="title function_">reject</span>(response.<span class="property">msg</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).<span class="title function_">catch</span>(</span><br><span class="line">                <span class="function"><span class="params">error</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="title function_">reject</span>(error)</span><br><span class="line">                &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 此时getMenuList()的response.data要经过filterAsyncRoutes递归处理</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">filterAsyncRoutes</span>(<span class="params">routes, roles</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> res = []</span><br><span class="line">    routes.<span class="title function_">forEach</span>(<span class="function"><span class="params">route</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> tmp = &#123; ...route &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="title function_">hasPermission</span>(roles, tmp)) &#123;</span><br><span class="line">            <span class="keyword">let</span> component = tmp.<span class="property">component</span>  <span class="comment">// 组件对应permission中的route_url</span></span><br><span class="line">            <span class="keyword">if</span> (route.<span class="property">component</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (component === <span class="string">&#x27;Layout&#x27;</span>) &#123;</span><br><span class="line">                    tmp.<span class="property">component</span> = <span class="title class_">Layout</span>  <span class="comment">// 默认布局已经存在该组件</span></span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    tmp.<span class="property">component</span> = <span class="function">(<span class="params">resolve</span>) =&gt;</span> <span class="built_in">require</span>([<span class="string">`@/views<span class="subst">$&#123;component&#125;</span>`</span>],</span><br><span class="line">                                                         resolve)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (tmp.<span class="property">children</span>) &#123;</span><br><span class="line">                tmp.<span class="property">children</span> = <span class="title function_">filterAsyncRoutes</span>(tmp.<span class="property">children</span>, roles)</span><br><span class="line">            &#125;</span><br><span class="line">            res.<span class="title function_">push</span>(tmp)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mutations = &#123;</span><br><span class="line">    <span class="attr">SET_ROUTES</span>: <span class="function">(<span class="params">state, routes</span>) =&gt;</span> &#123;</span><br><span class="line">        state.<span class="property">addRoutes</span> = routes</span><br><span class="line">        state.<span class="property">routes</span> = constantRoutes.<span class="title function_">concat</span>(routes)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 经过处理后的routes保存在route的routes属性中</span></span><br><span class="line"><span class="keyword">const</span> state = &#123;</span><br><span class="line"> <span class="attr">routes</span>: [],</span><br><span class="line"> <span class="attr">addRoutes</span>: []</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>好，我们来总结一下动态索引菜单是如何进行的：向后端请求得到数据后，用filterAsyncRoutes递归处理索引路径 component, 就可以进行存储和转换了。</p>
+<br>
+
+<br>
+</li>
+<li><p>最后，还有一些细节需要修改：</p>
+<p>（1）修改router-&gt;index.js文件，注释掉document和guide菜单，并将dashboard改成”首页”字样</p>
+<p>（2）修改utils-&gt;validate.js文件，对用户名的校验</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">validUsername</span>(<span class="params">str</span>) &#123;</span><br><span class="line">    <span class="comment">//const valid_map = [&#x27;admin&#x27;, &#x27;editor&#x27;]</span></span><br><span class="line">    <span class="keyword">return</span> str.<span class="property">length</span>&gt;<span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（3）修改layout-&gt;components-&gt;Navbar.vue文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">logout</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="comment">//修改logout方法</span></span><br><span class="line">     <span class="comment">//await this.$store.dispatch(&#x27;user/logout&#x27;)</span></span><br><span class="line">     <span class="comment">//this.$router.push(`/login?redirect=$&#123;this.$route.fullPath&#125;`)</span></span><br><span class="line">     <span class="variable language_">this</span>.$confirm(<span class="string">&#x27;确定退出系统吗?&#x27;</span>, <span class="string">&#x27;提示&#x27;</span>, &#123;</span><br><span class="line">       <span class="attr">confirmButtonText</span>: <span class="string">&#x27;确定&#x27;</span>,</span><br><span class="line">       <span class="attr">cancelButtonText</span>: <span class="string">&#x27;取消&#x27;</span>,</span><br><span class="line">       <span class="attr">type</span>: <span class="string">&#x27;warning&#x27;</span></span><br><span class="line">    &#125;).<span class="title function_">then</span>(<span class="title function_">async</span>() =&gt; &#123;</span><br><span class="line">       <span class="keyword">let</span> token = &#123; <span class="attr">token</span>: getToken &#125;    <span class="comment">// 获取token</span></span><br><span class="line">       <span class="keyword">let</span> res = <span class="keyword">await</span> <span class="title function_">logout</span>(token)      <span class="comment">// 调用退出登录方法</span></span><br><span class="line">       <span class="keyword">if</span> (res.<span class="property">success</span>)&#123;</span><br><span class="line">         <span class="title function_">removeToken</span>()	<span class="comment">// 去除token</span></span><br><span class="line">         <span class="title function_">removeSessionStoreage</span>()    <span class="comment">// 清除SessionStoreage    </span></span><br><span class="line">         <span class="comment">// this.$router.push(`/login?redirect=$&#123;this.$route.fullPath&#125;`)</span></span><br><span class="line">         <span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">href</span> = <span class="string">&#x27;/&#x27;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;).<span class="title function_">catch</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">       <span class="variable language_">this</span>.$message(&#123;</span><br><span class="line">         <span class="attr">type</span>: <span class="string">&#x27;info&#x27;</span>,</span><br><span class="line">         <span class="attr">message</span>: <span class="string">&#x27;已取消退出&#x27;</span></span><br><span class="line">      &#125;);</span><br><span class="line">   &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+<br>
+
+<br>
+
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>目前已经完成了项目的前端大体框架，后续在进行<strong>访问权限模块</strong>和<strong>项目各部分模块之间的关系</strong>总结。</p>
+<p>(<em>&#x2F;ω＼</em>)</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2025/04/20/%E9%98%BF%E9%87%8C%E4%BA%91OSS/" rel="next" title="阿里云OSS">
+                <i class="fa fa-chevron-left"></i> 阿里云OSS
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/%E5%8D%9A%E5%AE%A2%E5%A4%B4%E5%83%8F.png"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80-vue-element-admin%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">一. vue-element-admin安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C-%E5%90%8E%E7%AB%AF"><span class="nav-number">2.</span> <span class="nav-text">二.后端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89-%E5%89%8D%E7%AB%AF%E4%B9%8B%E7%99%BB%E5%BD%95%E9%80%80%E5%87%BA"><span class="nav-number">3.</span> <span class="nav-text">三.前端之登录退出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E4%B9%8B%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1%E8%8F%9C%E5%8D%95"><span class="nav-number">4.</span> <span class="nav-text">前端之动态路由菜单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-number">5.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">蝉</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
