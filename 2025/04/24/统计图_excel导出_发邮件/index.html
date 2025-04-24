@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="echarts统计图,excel导出,发邮件," />
 
 
 
@@ -79,18 +79,21 @@
 
 
 
-<meta name="description" content="财务管理  介绍：在这一部分，我们可以学习三个小知识： echarts统计图， excel导出 和 发送邮件。     一.  **echarts **统计图  echarts中文官网, 这里我们只看重叠折线统计图，简要思路就是 x轴数据为小时或日期数组，而series的数组为所展现的数据的大小，这两部分的数组索引一一对应。   示例效果：     123456789101112131415161">
+<meta name="description" content="介绍：在这一部分，我们可以学习三个小知识： echarts统计图， excel导出 和 发送邮件。     一.  **echarts **统计图  echarts中文官网, 这里我们只看重叠折线统计图，简要思路就是 x轴数据为小时或日期数组，而series的数组为所展现的数据的大小，这两部分的数组索引一一对应。   示例效果：     123456789101112131415161718192">
 <meta property="og:type" content="article">
-<meta property="og:title" content="蝉">
+<meta property="og:title" content="vue-element-admin之财务管理">
 <meta property="og:url" content="http://example.com/2025/04/24/%E7%BB%9F%E8%AE%A1%E5%9B%BE_excel%E5%AF%BC%E5%87%BA_%E5%8F%91%E9%82%AE%E4%BB%B6/index.html">
 <meta property="og:site_name" content="蝉">
-<meta property="og:description" content="财务管理  介绍：在这一部分，我们可以学习三个小知识： echarts统计图， excel导出 和 发送邮件。     一.  **echarts **统计图  echarts中文官网, 这里我们只看重叠折线统计图，简要思路就是 x轴数据为小时或日期数组，而series的数组为所展现的数据的大小，这两部分的数组索引一一对应。   示例效果：     123456789101112131415161">
+<meta property="og:description" content="介绍：在这一部分，我们可以学习三个小知识： echarts统计图， excel导出 和 发送邮件。     一.  **echarts **统计图  echarts中文官网, 这里我们只看重叠折线统计图，简要思路就是 x轴数据为小时或日期数组，而series的数组为所展现的数据的大小，这两部分的数组索引一一对应。   示例效果：     123456789101112131415161718192">
 <meta property="og:locale">
 <meta property="og:image" content="http://example.com/images/vue/%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1%E4%B9%8B%E6%8A%98%E7%BA%BF%E5%9B%BE.png">
 <meta property="og:image" content="http://example.com/images/vue/excel%E5%AF%BC%E5%87%BA%E6%95%88%E6%9E%9C.png">
 <meta property="article:published_time" content="2025-04-24T08:42:55.398Z">
-<meta property="article:modified_time" content="2025-04-24T09:52:23.226Z">
+<meta property="article:modified_time" content="2025-04-24T10:02:40.272Z">
 <meta property="article:author" content="蝉">
+<meta property="article:tag" content="echarts统计图">
+<meta property="article:tag" content="excel导出">
+<meta property="article:tag" content="发邮件">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/vue/%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1%E4%B9%8B%E6%8A%98%E7%BA%BF%E5%9B%BE.png">
 
@@ -128,7 +131,7 @@
 
 
 
-  <title> | 蝉</title>
+  <title>vue-element-admin之财务管理 | 蝉</title>
   
 
 
@@ -282,7 +285,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline"></h1>
+          <h1 class="post-title" itemprop="name headline">vue-element-admin之财务管理</h1>
         
 
         <div class="post-meta">
@@ -304,6 +307,61 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/vue-element-admin/" itemprop="url" rel="index">
+                    <span itemprop="name">vue-element-admin</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index">
+                    <span itemprop="name">java项目</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E9%A1%B9%E7%9B%AE/%E6%B1%BD%E8%BD%A6%E7%A7%9F%E8%B5%81%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
+                    <span itemprop="name">汽车租赁管理系统</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -332,9 +390,7 @@
       
 
       
-        <h3 id="财务管理"><a href="#财务管理" class="headerlink" title="财务管理"></a>财务管理</h3><br>
-
-<p>介绍：在这一部分，我们可以学习三个小知识： <em><strong>echarts</strong></em>统计图， <em><strong>excel</strong></em>导出 和 发送邮件。</p>
+        <p>介绍：在这一部分，我们可以学习三个小知识： <em><strong>echarts</strong></em>统计图， <em><strong>excel</strong></em>导出 和 发送邮件。</p>
 <br>
 
 <br>
@@ -415,6 +471,16 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/echarts%E7%BB%9F%E8%AE%A1%E5%9B%BE/" rel="tag"># echarts统计图</a>
+          
+            <a href="/tags/excel%E5%AF%BC%E5%87%BA/" rel="tag"># excel导出</a>
+          
+            <a href="/tags/%E5%8F%91%E9%82%AE%E4%BB%B6/" rel="tag"># 发邮件</a>
+          
+        </div>
       
 
       
@@ -536,7 +602,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -569,7 +635,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B4%A2%E5%8A%A1%E7%AE%A1%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">财务管理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80-echarts-%E7%BB%9F%E8%AE%A1%E5%9B%BE"><span class="nav-number">1.0.1.</span> <span class="nav-text">一.  **echarts **统计图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8C-excel%E5%AF%BC%E5%87%BA"><span class="nav-number">1.0.2.</span> <span class="nav-text">二. excel导出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%89-%E5%8F%91%E9%82%AE%E4%BB%B6"><span class="nav-number">1.0.3.</span> <span class="nav-text">三. 发邮件</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80-echarts-%E7%BB%9F%E8%AE%A1%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text">一.  **echarts **统计图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8C-excel%E5%AF%BC%E5%87%BA"><span class="nav-number">2.</span> <span class="nav-text">二. excel导出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%89-%E5%8F%91%E9%82%AE%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">三. 发邮件</span></a></li></ol></div>
             
 
           </div>
