@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="介绍：总结一下汽车租赁管理系统的核心业务逻辑，有四大板块： （1）权限管理 （2）数据初始 （3）日常业务 （4）财务管理 这样是按照开发顺序来排的：我们的项目首先登录进去，根据登录用户的权限信息显示左侧菜单栏，车辆信息要进行设置，然后可以操作日常业务板块了，最后可以进行财务管理。     一. 权限管理  这一模块是我们整个项目的基础，用户—角色—权限资源 这三大部分相关联，当然还有部门—用户，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="核心业务逻辑">
+<meta property="og:url" content="http://example.com/2025/04/25/%E6%A0%B8%E5%BF%83%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91/index.html">
+<meta property="og:site_name" content="蝉">
+<meta property="og:description" content="介绍：总结一下汽车租赁管理系统的核心业务逻辑，有四大板块： （1）权限管理 （2）数据初始 （3）日常业务 （4）财务管理 这样是按照开发顺序来排的：我们的项目首先登录进去，根据登录用户的权限信息显示左侧菜单栏，车辆信息要进行设置，然后可以操作日常业务板块了，最后可以进行财务管理。     一. 权限管理  这一模块是我们整个项目的基础，用户—角色—权限资源 这三大部分相关联，当然还有部门—用户，">
+<meta property="og:locale">
+<meta property="og:image" content="d:\blog\hexo\test\source\images\%E6%9D%83%E9%99%90%E4%B9%8B%E8%AE%BF%E9%97%AE.png">
+<meta property="og:image" content="d:\blog\hexo\test\source\images\%E6%95%B0%E6%8D%AE%E5%88%9D%E5%A7%8B.png">
+<meta property="og:image" content="d:\blog\hexo\test\source\images\%E6%97%A5%E5%B8%B8%E4%B8%9A%E5%8A%A1.png">
+<meta property="article:published_time" content="2025-04-25T04:58:35.971Z">
+<meta property="article:modified_time" content="2025-04-25T07:06:04.008Z">
+<meta property="article:author" content="蝉">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="d:\blog\hexo\test\source\images\%E6%9D%83%E9%99%90%E4%B9%8B%E8%AE%BF%E9%97%AE.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2025/04/25/核心业务逻辑/"/>
+
+
+
+
+
+  <title>核心业务逻辑 | 蝉</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">蝉</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">java工程师</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tag">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            tag
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/04/25/%E6%A0%B8%E5%BF%83%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/%E5%8D%9A%E5%AE%A2%E5%A4%B4%E5%83%8F.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蝉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">核心业务逻辑</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-04-25T12:58:35+08:00">
+                2025-04-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index">
+                    <span itemprop="name">java项目</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E9%A1%B9%E7%9B%AE/%E6%B1%BD%E8%BD%A6%E7%A7%9F%E8%B5%81%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
+                    <span itemprop="name">汽车租赁管理系统</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>介绍：总结一下汽车租赁管理系统的核心业务逻辑，有四大板块：</p>
+<p>（1）权限管理</p>
+<p>（2）数据初始</p>
+<p>（3）日常业务</p>
+<p>（4）财务管理</p>
+<p>这样是按照开发顺序来排的：我们的项目首先登录进去，根据登录用户的权限信息显示左侧菜单栏，车辆信息要进行设置，然后可以操作日常业务板块了，最后可以进行财务管理。</p>
+<br>
+
+<br>
+
+<h4 id="一-权限管理"><a href="#一-权限管理" class="headerlink" title="一. 权限管理"></a>一. 权限管理</h4><br>
+
+<p>这一模块是我们整个项目的基础，用户—角色—权限资源 这三大部分相关联，当然还有部门—用户，这里主要介绍重点： 权限资源 <strong>permission</strong> 表，表中包含了四大板块所有的权限及其子权限。</p>
+<br>
+
+<p>四大板块的权限分级：顶级目录(0), 菜单(1), 操作(2) </p>
+<br>
+
+<p>那么就有一个问题了，我们登录用户的权限和这四大板块的权限有啥关系呀？其实可以从访问和操作这两部分出发：</p>
+<p>（1）访问： 顶级目录和菜单部分</p>
+<p><img src="D:\blog\hexo\test\source\images\权限之访问.png" alt="权限之访问"></p>
+<p>（2）操作：增删改查</p>
+<br>
+
+<p>简单点说，就是，你用户的权限包含顶级目录和菜单，就可以在菜单侧边栏显示，再包含相关操作权限，就可以对相关页面进行相关操作。如果用户权限包括权限管理及其所有子权限，就可以在该板块编辑自己或其他用户的权限资源分配。</p>
+<br>
+
+<p>了解了具体原理后，我们来看看这四个部分的功能</p>
+<ol>
+<li><p>部门管理：增删改查</p>
+</li>
+<li><p>用户管理：增（选择部门，先删关联再添关联），删（删除与角色的关联），改，查，绑定角色</p>
+</li>
+<li><p>角色管理：增，删（删除与用户关联，删除与权限关联），改，查，设置权限</p>
+</li>
+<li><p>菜单管理：增删改查</p>
+<br>
+
+<br></li>
+</ol>
+<h4 id="二-数据初始"><a href="#二-数据初始" class="headerlink" title="二. 数据初始"></a>二. 数据初始</h4><br>
+
+<p>这一部分就是设置车辆信息的，效果图如下：</p>
+<p><img src="D:\blog\hexo\test\source\images\数据初始.png" alt="数据初始"></p>
+<p>我们直接来看操作：</p>
+<ol>
+<li><p>车辆厂商：增删改查</p>
+</li>
+<li><p>车辆品牌：增（选择车辆厂商），删，改，查（显示厂商名称）</p>
+</li>
+<li><p>出租类型：增删改查</p>
+</li>
+<li><p>车辆信息：增（所属厂商，所属品牌），删，改，查</p>
+<br>
+
+<br></li>
+</ol>
+<h4 id="三-日常业务"><a href="#三-日常业务" class="headerlink" title="三. 日常业务"></a>三. 日常业务</h4><br>
+
+<p>这一部分就是重中之重了，效果图如下：</p>
+<p><img src="D:\blog\hexo\test\source\images\日常业务.png" alt="日常业务"></p>
+<p>（1）客户管理：增删改查</p>
+<p>（2）汽车出租：管理为出租的汽车，查（汽车status&#x3D;0），出租（填写出租类型和用户信息–&gt; 新增订单, 修改汽车状态status&#x3D;1）</p>
+<p>（3）订单详情：查询，订单详情，押金返还</p>
+<p>（4）违章处理：增（车牌号，违章信息），删，改，查</p>
+<p>（5）车辆保养：增（查询需要保养的车牌号），删，改，查</p>
+<p>（6）车辆归还：管理未归还的车辆，显示用户信息，车辆信息，订单信息，出租类型的联合查询。查询，归还</p>
+<br>
+
+<br>
+
+<h4 id="四-财务管理"><a href="#四-财务管理" class="headerlink" title="四. 财务管理"></a>四. 财务管理</h4><br>
+
+<p>主要是 echarts 统计图，excel表导出，定期发邮件这三部分，之前已经总结了，请参考：</p>
+<p><a target="_blank" rel="noopener" href="https://jixu0610.github.io/2025/04/24/%E7%BB%9F%E8%AE%A1%E5%9B%BE_excel%E5%AF%BC%E5%87%BA_%E5%8F%91%E9%82%AE%E4%BB%B6/"><strong>vue-element-admin</strong></a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2025/04/25/%E6%97%A5%E8%AE%B02025-4-25/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/%E5%8D%9A%E5%AE%A2%E5%A4%B4%E5%83%8F.png"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80-%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">一. 权限管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C-%E6%95%B0%E6%8D%AE%E5%88%9D%E5%A7%8B"><span class="nav-number">2.</span> <span class="nav-text">二. 数据初始</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89-%E6%97%A5%E5%B8%B8%E4%B8%9A%E5%8A%A1"><span class="nav-number">3.</span> <span class="nav-text">三. 日常业务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9B-%E8%B4%A2%E5%8A%A1%E7%AE%A1%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">四. 财务管理</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">蝉</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
