@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SpringSecurity," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="介绍： 是一套后端访问和权限校验的框架，由一系列的过滤链组成，我们主要操作的是三部分：  认证核心（UsernamePasswordAuthenticationFilter）   处理认证和授权异常（ExceptionTranslationFilter）  授权核心（FilterSecurity）   我们主要从认证和授权这两个方面来总结。       一. 认证  认证就是认证核心 Userna">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Security">
+<meta property="og:url" content="http://example.com/2025/04/24/spring-security/index.html">
+<meta property="og:site_name" content="蝉">
+<meta property="og:description" content="介绍： 是一套后端访问和权限校验的框架，由一系列的过滤链组成，我们主要操作的是三部分：  认证核心（UsernamePasswordAuthenticationFilter）   处理认证和授权异常（ExceptionTranslationFilter）  授权核心（FilterSecurity）   我们主要从认证和授权这两个方面来总结。       一. 认证  认证就是认证核心 Userna">
+<meta property="og:locale">
+<meta property="og:image" content="http://example.com/images/security/springSecurity%E8%AE%A4%E8%AF%81.png">
+<meta property="article:published_time" content="2025-04-24T11:52:32.365Z">
+<meta property="article:modified_time" content="2025-04-24T13:44:12.998Z">
+<meta property="article:author" content="蝉">
+<meta property="article:tag" content="SpringSecurity">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/security/springSecurity%E8%AE%A4%E8%AF%81.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2025/04/24/spring-security/"/>
+
+
+
+
+
+  <title>Spring Security | 蝉</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">蝉</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">java工程师</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tag">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            tag
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/04/24/spring-security/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/%E5%8D%9A%E5%AE%A2%E5%A4%B4%E5%83%8F.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蝉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring Security</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-04-24T19:52:32+08:00">
+                2025-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E9%A1%B9%E7%9B%AE/" itemprop="url" rel="index">
+                    <span itemprop="name">java项目</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E9%A1%B9%E7%9B%AE/%E6%B1%BD%E8%BD%A6%E7%A7%9F%E8%B5%81%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
+                    <span itemprop="name">汽车租赁管理系统</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E6%A1%86%E6%9E%B6/" itemprop="url" rel="index">
+                    <span itemprop="name">java框架</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E6%A1%86%E6%9E%B6/SpringSecurity/" itemprop="url" rel="index">
+                    <span itemprop="name">SpringSecurity</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>介绍： 是一套后端访问和权限校验的框架，由一系列的过滤链组成，我们主要操作的是三部分：</p>
+<ol>
+<li><p>认证核心（UsernamePasswordAuthenticationFilter） </p>
+</li>
+<li><p>处理认证和授权异常（ExceptionTranslationFilter）</p>
+</li>
+<li><p>授权核心（FilterSecurity）</p>
+</li>
+</ol>
+<p>我们主要从<strong>认证</strong>和<strong>授权</strong>这两个方面来总结。</p>
+<br>
+
+<br>
+
+<br>
+
+<h3 id="一-认证"><a href="#一-认证" class="headerlink" title="一. 认证"></a>一. 认证</h3><br>
+
+<p>认证就是认证核心 <strong>UsernamePasswordAuthenticationFilter</strong> 过滤器来进行的，我们来看一下流程图：</p>
+<img src="\images\security\springSecurity认证.png" alt="springSecurity认证">
+
+<br>
+
+<br>
+
+<ol>
+<li><h5 id="用户初次登录"><a href="#用户初次登录" class="headerlink" title="用户初次登录"></a>用户初次登录</h5></li>
+</ol>
+<p>具体流程： </p>
+<p>（1）接受用户发送请求携带的username和password，封装为Authentication对象，调用AuthenticaionManager（含有UserDetailsService接口实现类和PasswordEncoder密码校验）</p>
+<br>
+
+<p>（2） UserDetailsService接口实现类根据username查询用户信息，及其权限信息，封装到UserDetails对象实现类里。经过PasswordEncoder的接口实现类BCryptPasswordEncoder的校验，通过校验则将UserDetails接口实现类对象封装到Authentication对象里, 不通过则到登录失败处理器返回登录失败信息。</p>
+<br>
+
+<p>（3）最后将对象返回并且存入SecurityContextHolder.getContext()里。</p>
+<br>
+
+<p>（4）存入并返回token: 通过UsernamePasswordAuthenticationFilter后，到达登录成功处理器LoginSucessHandler，首先根据 Authentication对象 获取 User 对象（封装用户信息和权限信息），再提取 username 和 userId 生成token, outputStream流返回token并将token，及有效时间长度存储到redis中。</p>
+<br>
+
+<br>
+
+<p>那便有一个问题了，这个登录成功处理器不在这三大过滤器之内呀，如何配置呢？哈哈，要经过SecurityConfig配置的，事实上，SecurityConfig是配置整个安全过滤器链的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableWebSecurity</span></span><br><span class="line"><span class="meta">@EnableMethodSecurity</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SecurityConfig</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> LoginSuccessHandler loginSuccessHandler;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> LoginFailHandler loginFailHandler;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> CustomerAccessDeniedHandler customerAccessDeniedHandler;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> CustomerAnonymousEntryPoint customerAnonymousEntryPoint;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> CustomerUserDetailsService customerUserDetailsService;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span>  VerifyTokenFilter verifyTokenFilter;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 配置安全过滤器链</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> http</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> SecurityFilterChain <span class="title function_">securityFilterChain</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 登录前过滤配置</span></span><br><span class="line">        http.addFilterBefore(verifyTokenFilter, UsernamePasswordAuthenticationFilter.class);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        http.formLogin()</span><br><span class="line">                .loginProcessingUrl(<span class="string">&quot;/rental/user/login&quot;</span>) <span class="comment">// 设置登录处理URL</span></span><br><span class="line">                .successHandler(loginSuccessHandler) <span class="comment">// 设置登录成功处理器</span></span><br><span class="line">                .failureHandler(loginFailHandler) <span class="comment">// 设置登录失败处理器</span></span><br><span class="line">                .and()</span><br><span class="line">                .sessionManagement()</span><br><span class="line">                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) <span class="comment">// 设置会话创建策略为无状态</span></span><br><span class="line">                .and()</span><br><span class="line">                .authorizeHttpRequests() <span class="comment">// 授权请求配置</span></span><br><span class="line">                .requestMatchers(<span class="string">&quot;/rental/user/login&quot;</span>) <span class="comment">// 匹配登录请求</span></span><br><span class="line">                .permitAll() <span class="comment">// 允许所有请求访问</span></span><br><span class="line">                .anyRequest().authenticated() <span class="comment">// 任何其他请求需要认证</span></span><br><span class="line">                .and()</span><br><span class="line">                .exceptionHandling() <span class="comment">// 异常处理配置</span></span><br><span class="line">                .authenticationEntryPoint(customerAnonymousEntryPoint) <span class="comment">// 设置未认证入口点</span></span><br><span class="line">                .accessDeniedHandler(customerAccessDeniedHandler) <span class="comment">// 设置访问拒绝处理器</span></span><br><span class="line">                .and()</span><br><span class="line">                .cors() <span class="comment">// 跨域配置</span></span><br><span class="line">                .and()</span><br><span class="line">                .csrf().disable() <span class="comment">// 关闭CSRF保护  跨站请求伪造 是一种网络攻击</span></span><br><span class="line">                .userDetailsService(customerUserDetailsService); <span class="comment">// 设置用户详情服务</span></span><br><span class="line">        <span class="keyword">return</span> http.build(); <span class="comment">// 构建并返回安全过滤链</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<br>
+
+<p>我们可以看到配置的内容为：</p>
+<p>登录前：UsernamePasswordAuthenticationFilter</p>
+<p>登录失败，登录成功</p>
+<p>请求访问策略</p>
+<p>异常处理</p>
+<p>跨域配置</p>
+<p>userDetailsService接口实现类</p>
+<br>
+
+<br>
+
+<ol start="2">
+<li><h5 id="用户携带token登录"><a href="#用户携带token登录" class="headerlink" title="用户携带token登录"></a>用户携带token登录</h5><p>具体流程：用户携带token访问非login的url需要经过verifyTokenFilter验证，token为空，不在redis内，不可解析则抛出认证异常被登录失败处理器捕捉，否则解析username，调用UserDetailsService接口实现类进行查询用户信息和权限信息，封装到Authentication对象并存储到SecurityContextHolder.getContext()里。</p>
+<br>
+
+<br>
+
+<br>
+
+<h3 id="二-授权"><a href="#二-授权" class="headerlink" title="二. 授权"></a>二. 授权</h3><br>
+
+<ol>
+<li>前面我们调用UserDetailService实习类loadByUserName方法查询权限信息并且存储到UserDetail的实现类中，我们来看一下权限信息的创建过程：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 查询权限信息</span></span><br><span class="line">List&lt;Permission&gt; permissionList = permissionService.selectPermissionListByUserId(user.getId());</span><br><span class="line">user.setPermissionList(permissionList);</span><br><span class="line"><span class="comment">// 通过stream流处理，将权限对象转化为权限字符串列表</span></span><br><span class="line">List&lt;String&gt; list = permissionList.stream().filter(Objects::nonNull)</span><br><span class="line">    .map(Permission::getPermissionCode)</span><br><span class="line">    .filter(Objects::nonNull)</span><br><span class="line">    .toList();</span><br><span class="line">String[] array = list.toArray(<span class="keyword">new</span> <span class="title class_">String</span>[list.size()]);</span><br><span class="line">List&lt;GrantedAuthority&gt; authorityList = AuthorityUtils.createAuthorityList(array);</span><br><span class="line">user.setAuthorities(authorityList);</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>可以看到权限信息是根据permissionCode字段进行创建的。</p>
+<br>
+
+<ol start="2">
+<li><p>现在已知权限信息的具体格式，接下来看看具体的授权操作，以新增角色为例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping</span></span><br><span class="line"><span class="meta">@PreAuthorize(&quot;hasAuthority(&#x27;sys:role:add&#x27;)&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Result <span class="title function_">add</span><span class="params">(<span class="meta">@RequestBody</span> Role role)</span> &#123;</span><br><span class="line">    role.setDeleted(<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">return</span> roleService.save(role) ?  Result.success() : Result.fail();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>需要 PreAuthorize 注解 和 hasAuthority 方法就好了，方法参数即为上面提交的permissionCode😁</p>
+<br>
+
+<p>现在授权大体已经讲完了，另外还可以自己定义hasAuthority方法呦🎃，我们来看看过程吧：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component(&quot;ex&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyExpressionRoot</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasAuthority</span><span class="params">(String authority)</span>&#123;</span><br><span class="line">        <span class="comment">//获取身份令牌</span></span><br><span class="line">        <span class="type">Authentication</span> <span class="variable">authentication</span> <span class="operator">=</span> SecurityContextHolder.getContext().getAuthentication();</span><br><span class="line">        <span class="comment">//获取权限</span></span><br><span class="line">        Collection&lt;? <span class="keyword">extends</span> <span class="title class_">GrantedAuthority</span>&gt; authorities = authentication.getAuthorities();</span><br><span class="line">        <span class="comment">//循环判断</span></span><br><span class="line">        <span class="keyword">for</span> (GrantedAuthority grantedAuthority : authorities) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">role</span> <span class="operator">=</span> grantedAuthority.getAuthority(); <span class="comment">// 获取string</span></span><br><span class="line">            <span class="keyword">if</span> (role.equals(authority)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用：</span></span><br><span class="line"><span class="meta">@PreAuthorize(&quot;@ex.hasAuthority(&#x27;&#x27;)&quot;)</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>好了，现在spring security已经总结完了，慢慢学习，思考和总结，熟练了就简单了😁</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SpringSecurity/" rel="tag"># SpringSecurity</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2025/04/24/%E7%BB%9F%E8%AE%A1%E5%9B%BE_excel%E5%AF%BC%E5%87%BA_%E5%8F%91%E9%82%AE%E4%BB%B6/" rel="next" title="vue-element-admin之财务管理">
+                <i class="fa fa-chevron-left"></i> vue-element-admin之财务管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2025/04/25/%E7%99%BE%E6%97%A5%E7%AD%91%E5%9F%BA%E4%B9%8B%E5%89%8D%E8%A8%80/" rel="prev" title="百日筑基之前言">
+                百日筑基之前言 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/%E5%8D%9A%E5%AE%A2%E5%A4%B4%E5%83%8F.png"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80-%E8%AE%A4%E8%AF%81"><span class="nav-text">一. 认证</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E5%88%9D%E6%AC%A1%E7%99%BB%E5%BD%95"><span class="nav-text">用户初次登录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E6%90%BA%E5%B8%A6token%E7%99%BB%E5%BD%95"><span class="nav-text">用户携带token登录</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C-%E6%8E%88%E6%9D%83"><span class="nav-text">二. 授权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">蝉</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
