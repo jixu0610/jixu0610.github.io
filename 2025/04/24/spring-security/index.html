@@ -88,7 +88,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="http://example.com/images/security/springSecurity%E8%AE%A4%E8%AF%81.png">
 <meta property="article:published_time" content="2025-04-24T11:52:32.365Z">
-<meta property="article:modified_time" content="2025-04-24T13:44:12.998Z">
+<meta property="article:modified_time" content="2025-05-02T07:09:20.385Z">
 <meta property="article:author" content="蝉">
 <meta property="article:tag" content="SpringSecurity">
 <meta name="twitter:card" content="summary">
@@ -459,8 +459,8 @@
 
 <br>
 
-<br>
-
+<br></li>
+</ol>
 <h3 id="二-授权"><a href="#二-授权" class="headerlink" title="二. 授权"></a>二. 授权</h3><br>
 
 <ol>
@@ -484,8 +484,6 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component(&quot;ex&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyExpressionRoot</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasAuthority</span><span class="params">(String authority)</span>&#123;</span><br><span class="line">        <span class="comment">//获取身份令牌</span></span><br><span class="line">        <span class="type">Authentication</span> <span class="variable">authentication</span> <span class="operator">=</span> SecurityContextHolder.getContext().getAuthentication();</span><br><span class="line">        <span class="comment">//获取权限</span></span><br><span class="line">        Collection&lt;? <span class="keyword">extends</span> <span class="title class_">GrantedAuthority</span>&gt; authorities = authentication.getAuthorities();</span><br><span class="line">        <span class="comment">//循环判断</span></span><br><span class="line">        <span class="keyword">for</span> (GrantedAuthority grantedAuthority : authorities) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">role</span> <span class="operator">=</span> grantedAuthority.getAuthority(); <span class="comment">// 获取string</span></span><br><span class="line">            <span class="keyword">if</span> (role.equals(authority)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用：</span></span><br><span class="line"><span class="meta">@PreAuthorize(&quot;@ex.hasAuthority(&#x27;&#x27;)&quot;)</span></span><br></pre></td></tr></table></figure></li>
 </ol>
 <h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>好了，现在spring security已经总结完了，慢慢学习，思考和总结，熟练了就简单了😁</p>
-</li>
-</ol>
 
       
     </div>
