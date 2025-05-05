@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SpringCloud-Alibaba,Nacos," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="介绍：Nacos是SpringCloud Alibaba的五大组件之一，是一个服务注册中心，主要功能为管理注册的服务，配置服务，为服务之间的访问提供DNS解析，可以设置负载均衡。     一. 注册服务及服务之间的访问  （1）服务是如何注册到Nacos从而被Nacos管理的呢？  很简单，就是导入一个发现Nacos的依赖包（nacos client依赖），再通过application.yml配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringCloud系列之Nacos">
+<meta property="og:url" content="http://example.com/2025/05/05/SpringCloud%E7%B3%BB%E5%88%97%E4%B9%8BNacos/index.html">
+<meta property="og:site_name" content="蝉">
+<meta property="og:description" content="介绍：Nacos是SpringCloud Alibaba的五大组件之一，是一个服务注册中心，主要功能为管理注册的服务，配置服务，为服务之间的访问提供DNS解析，可以设置负载均衡。     一. 注册服务及服务之间的访问  （1）服务是如何注册到Nacos从而被Nacos管理的呢？  很简单，就是导入一个发现Nacos的依赖包（nacos client依赖），再通过application.yml配置">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-05-05T09:29:22.667Z">
+<meta property="article:modified_time" content="2025-05-05T12:53:05.555Z">
+<meta property="article:author" content="蝉">
+<meta property="article:tag" content="SpringCloud-Alibaba">
+<meta property="article:tag" content="Nacos">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2025/05/05/SpringCloud系列之Nacos/"/>
+
+
+
+
+
+  <title>SpringCloud系列之Nacos | 蝉</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">蝉</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">java工程师</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tag">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            tag
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/05/05/SpringCloud%E7%B3%BB%E5%88%97%E4%B9%8BNacos/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/%E5%8D%9A%E5%AE%A2%E5%A4%B4%E5%83%8F.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蝉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SpringCloud系列之Nacos</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-05-05T17:29:22+08:00">
+                2025-05-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E6%A1%86%E6%9E%B6/" itemprop="url" rel="index">
+                    <span itemprop="name">java框架</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E6%A1%86%E6%9E%B6/SpringCloud-Alibaba/" itemprop="url" rel="index">
+                    <span itemprop="name">SpringCloud-Alibaba</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>介绍：Nacos是SpringCloud Alibaba的五大组件之一，是一个服务注册中心，主要功能为管理注册的服务，配置服务，为服务之间的访问提供DNS解析，可以设置负载均衡。</p>
+<br>
+
+<br>
+
+<h4 id="一-注册服务及服务之间的访问"><a href="#一-注册服务及服务之间的访问" class="headerlink" title="一. 注册服务及服务之间的访问"></a>一. 注册服务及服务之间的访问</h4><br>
+
+<h6 id="（1）服务是如何注册到Nacos从而被Nacos管理的呢？"><a href="#（1）服务是如何注册到Nacos从而被Nacos管理的呢？" class="headerlink" title="（1）服务是如何注册到Nacos从而被Nacos管理的呢？"></a>（1）服务是如何注册到Nacos从而被Nacos管理的呢？</h6><br>
+
+<p>很简单，就是导入一个发现Nacos的依赖包（nacos client依赖），再通过application.yml配置文件进行注册：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-alibaba-nacos-discovery<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>application.yml:</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">9002</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">consumer-service-nacos</span>  <span class="comment"># 注册到Nacos的服务名称</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">nacos:</span></span><br><span class="line">      <span class="attr">discovery:</span></span><br><span class="line">        <span class="attr">server-addr:</span> <span class="string">localhost:8848</span> <span class="comment"># Nacos在本地启动的默认端口</span></span><br><span class="line">        <span class="attr">username:</span> <span class="string">nacos</span>  <span class="comment"># 登录Nacos的用户名和密码，用于访问验证</span></span><br><span class="line">        <span class="attr">password:</span> <span class="string">nacos</span></span><br><span class="line">        <span class="attr">namespace:</span> <span class="string">0ffbe532-ae84-4010-ade3-591db18d33e1</span> <span class="comment"># 命名空间的id</span></span><br><span class="line">        <span class="attr">group:</span> <span class="string">dev</span> <span class="comment"># 组</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<br>
+
+<h6 id="（2）注册到Nacos的服务要如何访问Nacos的其他服务呢？"><a href="#（2）注册到Nacos的服务要如何访问Nacos的其他服务呢？" class="headerlink" title="（2）注册到Nacos的服务要如何访问Nacos的其他服务呢？"></a>（2）注册到Nacos的服务要如何访问Nacos的其他服务呢？</h6><p>这个时候就要用到RestTemplate对象了，我们进行一个自动配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ConfigBean</span> &#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> RestTemplate <span class="title function_">restTemplate</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RestTemplate</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用restTemplate的不同方法访问其他服务，访问的地址为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://服务名</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>这个时候有一个问题了，如果要访问的这个服务名下有多个不同的服务（端口不同），该访问拿一个呢？这个时候就要用到负载均衡了，只需在RestTemplate生成bean的方法加上 LoadBalanced 注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ConfigBean</span> &#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@LoadBalanced</span></span><br><span class="line">    <span class="keyword">public</span> RestTemplate <span class="title function_">restTemplate</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RestTemplate</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<br>
+
+<h6 id="（3）注册服务时有那些细节需要注意呢？"><a href="#（3）注册服务时有那些细节需要注意呢？" class="headerlink" title="（3）注册服务时有那些细节需要注意呢？"></a>（3）注册服务时有那些细节需要注意呢？</h6><ol>
+<li><p>注册的是临时实例还是永久实例，有什么区别？</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">nacos:</span></span><br><span class="line">      <span class="attr">discovery:</span></span><br><span class="line">        <span class="attr">ephemeral:</span> <span class="literal">false</span> <span class="comment"># false为永久实例，true为临时实例，默认为临时实例</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>区别：</p>
+<p>临时实例和永久实例的区别在于能否被删除，临时实例依靠心跳机制存活，默认间隔为5秒，15秒未应答就是不健康状态，30秒未应答就删除。永久实例则不会删除，实例不存在时就标记为不健康状态。</p>
+<p>临时实例的模式为AP(可用性和分区容错性)， 基于discro协议，只返回可以使用的数据，不一定是最新数据，强调的是数据的可用性。而永久实例的模式为CP(一致性和分区容错性)，基于raft协议实现，返回最新的数据或者错误，强调的是数据正确。</p>
+<br>
+
+<p>集群</p>
+</li>
+<li><p>如何设置负载均衡访问的权重？保护阈值是什么，如何设置？</p>
+<br>
+
+<p>假如在nacos服务端中一个服务名下有多个端口，可以设置不同端口的权重，那在消费端中配置：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">loadbalancer:</span></span><br><span class="line">      <span class="attr">nacos:</span></span><br><span class="line">        <span class="attr">enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>接上述所讲，一个服务名下有多个端口，可以设置该服务的保护阈值（0-1的浮点数），如果健康的端口数所占比例小于或等于保护阈值，那么nacos将全部实例（包括不健康的实例）返回给调用端，防止发生雪崩效应。</p>
+<br>
+
+<br></li>
+</ol>
+<h4 id="二-Nacos集群"><a href="#二-Nacos集群" class="headerlink" title="二. Nacos集群"></a>二. Nacos集群</h4><br>
+
+<p>Nacos集群中Nacos节点的数量大于或等于3，单个Nacos使用内嵌数据库derby，Nacos集群使用MySQL（集中式处理）。</p>
+<br>
+
+<p>Nacos集群如何配置和启动？</p>
+<p>在mysql创建数据库，运行Nacos的数据表sql语句：nacos目录下&gt;conf&gt;mysql-schema.sql，这个时候集群的数据库就已经搭建好了，如果有服务要连接该集群，必须配置连接该MySQL数据库:</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/testcloud</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="number">123456</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br></pre></td></tr></table></figure>
+
+<p>到nacos的各个节点的application.properties配置文件中修改MySQL的数量和库名，数据库部分介绍完了，该到集群配置启动部分了，到nacos的各个节点的cluster.conf下，添加集群中所有节点的ip和端口号，最后使用startup命令启动各个节点既可。</p>
+<br>
+
+<p>有一个点需要注意，在nacos2.x以后，除了启动的Http端口外，还有gRPC的通信方式，是在Http端口基础上加上偏移量，所以同一台服务器上模拟Nacos集群时，各个节点的Http端口不要相邻。</p>
+<br>
+
+<br>
+
+<h4 id="三-Nacos配置中心"><a href="#三-Nacos配置中心" class="headerlink" title="三. Nacos配置中心"></a>三. Nacos配置中心</h4><br>
+
+<p>设立配置中心，方便管理各个服务的配置，这个时候服务只需要连接到配置中心中指定的配置文件既可获取它自己的配置，来进行启动。</p>
+<br>
+
+<ol>
+<li><p>在配置中心创建配置文件，各个服务是如何从配置中心里获取到它们的配置文件的？</p>
+<br>
+
+<p>创建一个命名空间，或者选中命名空间，创建配置文件过程中设置组</p>
+<br>
+
+<p>各个服务导入nacos-config依赖包：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-alibaba-nacos-config<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>配置文件：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">application:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">consumer-service-nacos-config</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">nacos:</span></span><br><span class="line">      <span class="attr">config:</span></span><br><span class="line">        <span class="attr">server-addr:</span> <span class="string">localhost:8848</span></span><br><span class="line">        <span class="attr">username:</span> <span class="string">nacos</span></span><br><span class="line">        <span class="attr">password:</span> <span class="string">nacos</span></span><br><span class="line">        <span class="attr">file-extension:</span> <span class="string">yml</span></span><br><span class="line">        <span class="comment"># namespace:</span></span><br><span class="line">        <span class="comment"># group: </span></span><br><span class="line">  <span class="attr">config:</span></span><br><span class="line">    <span class="attr">import:</span> <span class="string">optional:nacos:$&#123;spring.application.name&#125;.$&#123;spring.cloud.nacos.config.file-extension&#125;</span></span><br><span class="line">    <span class="comment"># 多个配置文件的读取时，后者会覆盖前者</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<br>
+</li>
+<li><p>配置中心和客户端的数据是如何同步的？</p>
+<br>
+
+<p>通过长轮询的pull模式，即客户端向服务端发送获取配置的请求，服务端不会立即响应而是将请求挂起等待一段时间，如果这段时间内，配置文件发生变化，就立即响应请求，否则，就等超时之后响应请求。当客户端接受到响应请求后就再次发送长轮询请求，如此一直进行来保证配置文件的数据同步。</p>
+<br></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SpringCloud-Alibaba/" rel="tag"># SpringCloud-Alibaba</a>
+          
+            <a href="/tags/Nacos/" rel="tag"># Nacos</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2025/05/04/%E9%9D%A2%E8%AF%95%E7%B3%BB%E5%88%97%E4%B9%8Bmysql/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/%E5%8D%9A%E5%AE%A2%E5%A4%B4%E5%83%8F.png"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80-%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1%E5%8F%8A%E6%9C%8D%E5%8A%A1%E4%B9%8B%E9%97%B4%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="nav-text">一. 注册服务及服务之间的访问</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E6%9C%8D%E5%8A%A1%E6%98%AF%E5%A6%82%E4%BD%95%E6%B3%A8%E5%86%8C%E5%88%B0Nacos%E4%BB%8E%E8%80%8C%E8%A2%ABNacos%E7%AE%A1%E7%90%86%E7%9A%84%E5%91%A2%EF%BC%9F"><span class="nav-text">（1）服务是如何注册到Nacos从而被Nacos管理的呢？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E6%B3%A8%E5%86%8C%E5%88%B0Nacos%E7%9A%84%E6%9C%8D%E5%8A%A1%E8%A6%81%E5%A6%82%E4%BD%95%E8%AE%BF%E9%97%AENacos%E7%9A%84%E5%85%B6%E4%BB%96%E6%9C%8D%E5%8A%A1%E5%91%A2%EF%BC%9F"><span class="nav-text">（2）注册到Nacos的服务要如何访问Nacos的其他服务呢？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%EF%BC%883%EF%BC%89%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1%E6%97%B6%E6%9C%89%E9%82%A3%E4%BA%9B%E7%BB%86%E8%8A%82%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E5%91%A2%EF%BC%9F"><span class="nav-text">（3）注册服务时有那些细节需要注意呢？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C-Nacos%E9%9B%86%E7%BE%A4"><span class="nav-text">二. Nacos集群</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89-Nacos%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83"><span class="nav-text">三. Nacos配置中心</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">蝉</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
