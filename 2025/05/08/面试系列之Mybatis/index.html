@@ -86,13 +86,13 @@
 <meta property="og:site_name" content="蝉">
 <meta property="og:description" content="一. 基本实现现在我们的Springboot + Mybatis是如何配置的呢？   pom.xml文件： 12345678910111213141516171819202122232425&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;    &lt;artifactId&gt;spring">
 <meta property="og:locale">
-<meta property="og:image" content="d:\blog\hexo\test\source\images\Mybatis%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B.png">
+<meta property="og:image" content="http://example.com/images/Mybatis%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B.png">
 <meta property="article:published_time" content="2025-05-08T05:45:38.033Z">
-<meta property="article:modified_time" content="2025-05-08T12:53:54.134Z">
+<meta property="article:modified_time" content="2025-05-08T12:59:43.610Z">
 <meta property="article:author" content="蝉">
 <meta property="article:tag" content="Mybatis">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="d:\blog\hexo\test\source\images\Mybatis%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B.png">
+<meta name="twitter:image" content="http://example.com/images/Mybatis%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B.png">
 
 
 
@@ -381,7 +381,10 @@
 <br>
 
 <p>【说说Mybatis的具体执行流程】</p>
-<p><img src="D:\blog\hexo\test\source\images\Mybatis执行流程.png" alt="Mybatis执行流程"></p>
+<img src="\images\Mybatis执行流程.png" alt="Mybatis执行流程"/>
+
+
+
 <p>我就总结一下吧：首先读取mybatis的xml配置（包含了对mapper.xml文件的映射），讲这些配置转化为流，作为sqlSessionFactoryBuilder的build方法的参数去生成了sqlSessionFactory，然后sqlSessionFactory创建sqlSession，sqlSession去调用Executor执行器去执行sql语句。在执行前将需要映射的参数信息保存到MapperStatement对象中，执行的过程是执行器调用StatementHandler预编译，再调用ParameterHandler设置编译参数，最后用TypeHandler将javaBean类型和数据库类型进行映射处理，调用原生的JDBC的API执行sql语句。如果返回结果，TypeHandler将数据库类型映射到javaBean类型，这个时候可能出现查询字段和对象属性不一致的情况，就可以用resultMap进行手动映射，如果想要将数据库的某个类型固定地转化为java的某个类型，就可以自己自定义TypeHandler, 最后就通过ResultSetHandler来处理查询结果。</p>
 <br>
 
