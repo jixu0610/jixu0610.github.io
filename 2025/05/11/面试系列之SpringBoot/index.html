@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="算法," />
+  <meta name="keywords" content="SpringBoot," />
 
 
 
@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="介绍：回想自己学习算法的过程，先是大致看完了K神的《Hello算法》java版，又在leetcode中刷了大概30题，ε&#x3D;(´ο｀*)))唉，因为最近做项目把握不准时间，每天最后总是没时间刷题，写下来反思反思，每天刷两题，每天记录记录自己的刷题感受，十天为单位发一篇文章，监督自己的进度顺便总结一下K神的Hello算法部分，加油！">
+<meta name="description" content="#### 一. 自动配置原理    （1）理解SpringBoot的自动配置机制   【SpringBoot的原理是什么？】 通过起步依赖和自动配置来实现的，起步依赖包含所需的jar包，有配置类以及提供的Bean，那么就有一个问题了，这些配置类和提供的Bean是如何导入到我们项目中的Spring容器里呢？这个时候就需要自动配置了，起步依赖清楚自己要导入那些配置类和Bean，就将需要的配置类和Be">
 <meta property="og:type" content="article">
-<meta property="og:title" content="算法刷题之前言">
-<meta property="og:url" content="http://example.com/2025/04/25/%E7%AE%97%E6%B3%95%E5%88%B7%E9%A2%98%E4%B9%8B%E5%89%8D%E8%A8%80/index.html">
+<meta property="og:title" content="面试系列之SpringBoot">
+<meta property="og:url" content="http://example.com/2025/05/11/%E9%9D%A2%E8%AF%95%E7%B3%BB%E5%88%97%E4%B9%8BSpringBoot/index.html">
 <meta property="og:site_name" content="蝉">
-<meta property="og:description" content="介绍：回想自己学习算法的过程，先是大致看完了K神的《Hello算法》java版，又在leetcode中刷了大概30题，ε&#x3D;(´ο｀*)))唉，因为最近做项目把握不准时间，每天最后总是没时间刷题，写下来反思反思，每天刷两题，每天记录记录自己的刷题感受，十天为单位发一篇文章，监督自己的进度顺便总结一下K神的Hello算法部分，加油！">
+<meta property="og:description" content="#### 一. 自动配置原理    （1）理解SpringBoot的自动配置机制   【SpringBoot的原理是什么？】 通过起步依赖和自动配置来实现的，起步依赖包含所需的jar包，有配置类以及提供的Bean，那么就有一个问题了，这些配置类和提供的Bean是如何导入到我们项目中的Spring容器里呢？这个时候就需要自动配置了，起步依赖清楚自己要导入那些配置类和Bean，就将需要的配置类和Be">
 <meta property="og:locale">
-<meta property="article:published_time" content="2025-04-25T04:37:44.518Z">
-<meta property="article:modified_time" content="2025-04-25T04:51:42.856Z">
+<meta property="og:image" content="http://example.com/images/%E9%98%BF%E9%87%8C%E4%BA%91OSS%E8%B5%B7%E6%AD%A5%E4%BE%9D%E8%B5%96.png">
+<meta property="article:published_time" content="2025-05-11T07:00:05.833Z">
+<meta property="article:modified_time" content="2025-05-11T13:51:31.124Z">
 <meta property="article:author" content="蝉">
-<meta property="article:tag" content="算法">
+<meta property="article:tag" content="SpringBoot">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/%E9%98%BF%E9%87%8C%E4%BA%91OSS%E8%B5%B7%E6%AD%A5%E4%BE%9D%E8%B5%96.png">
 
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/2025/04/25/算法刷题之前言/"/>
+  <link rel="canonical" href="http://example.com/2025/05/11/面试系列之SpringBoot/"/>
 
 
 
 
 
-  <title>算法刷题之前言 | 蝉</title>
+  <title>面试系列之SpringBoot | 蝉</title>
   
 
 
@@ -263,7 +265,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2025/04/25/%E7%AE%97%E6%B3%95%E5%88%B7%E9%A2%98%E4%B9%8B%E5%89%8D%E8%A8%80/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/05/11/%E9%9D%A2%E8%AF%95%E7%B3%BB%E5%88%97%E4%B9%8BSpringBoot/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -280,7 +282,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">算法刷题之前言</h1>
+          <h1 class="post-title" itemprop="name headline">面试系列之SpringBoot</h1>
         
 
         <div class="post-meta">
@@ -292,8 +294,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-04-25T12:37:44+08:00">
-                2025-04-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-05-11T15:00:05+08:00">
+                2025-05-11
               </time>
             
 
@@ -315,8 +317,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95%E5%88%B7%E9%A2%98/" itemprop="url" rel="index">
-                    <span itemprop="name">算法刷题</span>
+                  <a href="/categories/java%E9%9D%A2%E8%AF%95/" itemprop="url" rel="index">
+                    <span itemprop="name">java面试</span>
                   </a>
                 </span>
 
@@ -357,7 +359,103 @@
       
 
       
-        <p>介绍：回想自己学习算法的过程，先是大致看完了K神的《Hello算法》java版，又在leetcode中刷了大概30题，ε&#x3D;(´ο｀*)))唉，因为最近做项目把握不准时间，每天最后总是没时间刷题，写下来反思反思，每天刷两题，每天记录记录自己的刷题感受，十天为单位发一篇文章，监督自己的进度顺便总结一下K神的Hello算法部分，加油！</p>
+        <br>
+#### 一. 自动配置原理
+
+<br>
+
+<p>（1）理解SpringBoot的自动配置机制</p>
+<br>
+
+<p>【SpringBoot的原理是什么？】</p>
+<p>通过起步依赖和自动配置来实现的，起步依赖包含所需的jar包，有配置类以及提供的Bean，那么就有一个问题了，这些配置类和提供的Bean是如何导入到我们项目中的Spring容器里呢？这个时候就需要自动配置了，起步依赖清楚自己要导入那些配置类和Bean，就将需要的配置类和Bean记录在springboot-autoconfigure这个jar包下的autoConfiguration.import文件中，至于这个文件中的配置类和Bean是如何被发现的？@SpringBootApplication注解封装了一个@EnableAutoConfiguration注解，这个注解又封装了@Import注解，@Import注解的参数就是ImportSelector接口的实现类，实现类的SelectImports实现方法就发现autoConfiguration.import文件，最后导入文件中记录的配置类和Bean就行了。</p>
+<br>
+
+<br>
+
+<p>（2）熟悉SpringBoot Starter的使用和自定义</p>
+<br>
+
+<p>OK, 我们来看看自定义起步依赖aliyun OSS的案例：</p>
+<p>aliyun-oss-spring-boot-autoconfigure自动配置:</p>
+<img src="\images\阿里云OSS起步依赖.png" alt="阿里云OSS起步依赖"/>
+
+<p>然后aliyun-oss-spring-boot-starter引入其他依赖库和自动配置，进行聚合。</p>
+<p>我们的项目只需依赖aliyun-oss-spring-boot-starter即可。</p>
+<br>
+
+<br>
+
+<h4 id="二-SpringBoot的启动流程"><a href="#二-SpringBoot的启动流程" class="headerlink" title="二. SpringBoot的启动流程"></a>二. SpringBoot的启动流程</h4><br>
+
+<p>（1）掌握SpringBoot应用的启动过程</p>
+<br>
+
+<p>【说说SpringBoot的启动流程】</p>
+<ol>
+<li>main方法执行</li>
+<li>创建执行启动核心类SpringApplication，判断应用类型，设置初始化器和监听器，确定主应用类</li>
+<li>run方法：准备应用环境，加载配置文件，创建和刷新Spring容器，启动嵌入式Web服务器，发布已启动事件，执行实现 CommandLineRunner 和 ApplicationRunner 接口的初始化逻辑，发布 ready 事件，应用启动完成。</li>
+</ol>
+<br>
+
+<p>（2）理解SpringApplication类的功能与配置</p>
+<p>相当于SpringBoot应用的大脑，可以加载配置文件，实现自动配置，启动嵌入式Web服务器和事件驱动。</p>
+<br>
+
+<h4 id="三-常用注解与配置"><a href="#三-常用注解与配置" class="headerlink" title="三. 常用注解与配置"></a>三. 常用注解与配置</h4><br>
+
+<p>熟悉@SpringBootApplication，@EnableAutoConfiguration等注解的作用</p>
+<p>掌握配置文件的使用与管理</p>
+<br>
+
+<h4 id="四-SpringBoot与Spring集成"><a href="#四-SpringBoot与Spring集成" class="headerlink" title="四. SpringBoot与Spring集成"></a>四. SpringBoot与Spring集成</h4><p>掌握SpringBoot对Spring框架的增强和简化</p>
+<p>掌握SpringBoot与Spring模块（SpringMVC，Spring Data等）的集成方式</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>模块</strong></th>
+<th align="left"><strong>Starter 依赖</strong></th>
+<th align="left"><strong>功能</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Spring MVC</strong></td>
+<td align="left"><code>spring-boot-starter-web</code></td>
+<td align="left">集成 Spring MVC 与内嵌 Tomcat。</td>
+</tr>
+<tr>
+<td align="left"><strong>Spring Data JPA</strong></td>
+<td align="left"><code>spring-boot-starter-data-jpa</code></td>
+<td align="left">集成 JPA + Hibernate + 数据源。</td>
+</tr>
+<tr>
+<td align="left"><strong>Spring Security</strong></td>
+<td align="left"><code>spring-boot-starter-security</code></td>
+<td align="left">自动配置认证、授权、CSRF 防护等。</td>
+</tr>
+<tr>
+<td align="left"><strong>Spring Batch</strong></td>
+<td align="left"><code>spring-boot-starter-batch</code></td>
+<td align="left">简化批处理任务配置。</td>
+</tr>
+<tr>
+<td align="left"><strong>Spring AMQP</strong></td>
+<td align="left"><code>spring-boot-starter-amqp</code></td>
+<td align="left">集成 RabbitMQ 消息队列。</td>
+</tr>
+</tbody></table>
+<br>
+
+<br>
+
+<h4 id="五-SpringBoot-Actuator"><a href="#五-SpringBoot-Actuator" class="headerlink" title="五. SpringBoot Actuator"></a>五. SpringBoot Actuator</h4><p>了解Actuator的功能与使用</p>
+<p>SpringBoot Actuator是SpringBoot提供的一个监控和管理功能的工具。</p>
+<p>熟悉监控与管理端点的配置</p>
+<h4 id="六-其他"><a href="#六-其他" class="headerlink" title="六. 其他"></a>六. 其他</h4><p>掌握SpringBoot与Mybatis的集成与使用</p>
+<p>掌握SpringBoot中Spring Security的集成与配置，基本的认证和授权机制</p>
+<p>掌握编写SpringBoot应用的单元测试与集成测试：单元测试@Test，集成测试@SpringBootTest，@Test</p>
+<p>Junit和SpringBootTest都被spring-boot-starter-test这个起步依赖包含。</p>
 
       
     </div>
@@ -375,7 +473,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+            <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
           
         </div>
       
@@ -388,8 +486,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2025/04/25/%E7%99%BE%E6%97%A5%E7%AD%91%E5%9F%BA%E4%B9%8B%E5%89%8D%E8%A8%80/" rel="next" title="百日筑基之前言">
-                <i class="fa fa-chevron-left"></i> 百日筑基之前言
+              <a href="/2025/05/09/%E9%9D%A2%E8%AF%95%E7%B3%BB%E5%88%97%E4%B9%8BSpring/" rel="next" title="面试系列之Spring">
+                <i class="fa fa-chevron-left"></i> 面试系列之Spring
               </a>
             
           </div>
@@ -397,10 +495,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2025/04/25/%E6%A0%B8%E5%BF%83%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91/" rel="prev" title="核心业务逻辑">
-                核心业务逻辑 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -452,8 +546,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -517,6 +620,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C-SpringBoot%E7%9A%84%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B"><span class="nav-text">二. SpringBoot的启动流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89-%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3%E4%B8%8E%E9%85%8D%E7%BD%AE"><span class="nav-text">三. 常用注解与配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9B-SpringBoot%E4%B8%8ESpring%E9%9B%86%E6%88%90"><span class="nav-text">四. SpringBoot与Spring集成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%94-SpringBoot-Actuator"><span class="nav-text">五. SpringBoot Actuator</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%AD-%E5%85%B6%E4%BB%96"><span class="nav-text">六. 其他</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
