@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java基础," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="ε&#x3D;(´ο｀*)))唉，这一部分有点杂乱且多，我总结的时候可以看看之前的课件，做的笔记，再结合面试鸭刷题路线，JavaGuide的自测题。拆解成几部分，逐一攻克。     一. 面向对象编程（1）封装，继承和多态的实现与使用   【什么是Java的多态特性】 多态是指同一个接口或者父类引用变量可以指向不同的对象实例，根据实际指向的对象类型执行相应的方法。 无需修改原有代码，就可以使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试系列之Java基础">
+<meta property="og:url" content="http://example.com/2025/05/12/%E9%9D%A2%E8%AF%95%E7%B3%BB%E5%88%97%E4%B9%8BJava%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="蝉">
+<meta property="og:description" content="ε&#x3D;(´ο｀*)))唉，这一部分有点杂乱且多，我总结的时候可以看看之前的课件，做的笔记，再结合面试鸭刷题路线，JavaGuide的自测题。拆解成几部分，逐一攻克。     一. 面向对象编程（1）封装，继承和多态的实现与使用   【什么是Java的多态特性】 多态是指同一个接口或者父类引用变量可以指向不同的对象实例，根据实际指向的对象类型执行相应的方法。 无需修改原有代码，就可以使用">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-05-12T04:51:47.580Z">
+<meta property="article:modified_time" content="2025-05-13T09:40:05.846Z">
+<meta property="article:author" content="蝉">
+<meta property="article:tag" content="Java基础">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2025/05/12/面试系列之Java基础/"/>
+
+
+
+
+
+  <title>面试系列之Java基础 | 蝉</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">蝉</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">java工程师</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tag">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            tag
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/05/12/%E9%9D%A2%E8%AF%95%E7%B3%BB%E5%88%97%E4%B9%8BJava%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/%E5%8D%9A%E5%AE%A2%E5%A4%B4%E5%83%8F.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蝉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">面试系列之Java基础</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-05-12T12:51:47+08:00">
+                2025-05-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E9%9D%A2%E8%AF%95/" itemprop="url" rel="index">
+                    <span itemprop="name">java面试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <br>
+
+<p>ε&#x3D;(´ο｀*)))唉，这一部分有点杂乱且多，我总结的时候可以看看之前的课件，做的笔记，再结合面试鸭刷题路线，JavaGuide的自测题。拆解成几部分，逐一攻克。</p>
+<br>
+
+<br>
+
+<h4 id="一-面向对象编程"><a href="#一-面向对象编程" class="headerlink" title="一. 面向对象编程"></a>一. 面向对象编程</h4><p>（1）封装，继承和多态的实现与使用</p>
+<br>
+
+<p>【什么是Java的多态特性】</p>
+<p>多态是指同一个接口或者父类引用变量可以指向不同的对象实例，根据实际指向的对象类型执行相应的方法。</p>
+<p>无需修改原有代码，就可以使用同一方法在不同对象上表现的不同行为。</p>
+<br>
+
+<p>【default，protected，public访问修饰符修饰属性的区别】</p>
+<p>default表示只有同包的类才能访问，protected表示同包或者不同包的子类才能访问，public表示同一个模块下，同包和不同包的所有类都能访问。</p>
+<br>
+
+<p>【说说有那些内部类，有什么作用】</p>
+<p>Java内部类指的是在一个类的内部定义的类，有成员内部类，局部内部类，静态内部类和匿名内部类。可以访问外部类的成员变量和方法。主要作用就是简化代码，实现回调函数或者事件监听等事件处理。</p>
+<br>
+
+<p>说到匿名内部类，我们顺便复习一下lambda表达式，看一个代码实例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Runnable接口的匿名实现类</span></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Thread</span>(<span class="keyword">new</span> <span class="title class_">Runnable</span>() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;线程运行中&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).start();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// lambda表达式简化</span></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; System.out.println(<span class="string">&quot;线程运行中&quot;</span>)).start();</span><br></pre></td></tr></table></figure>
+
+<p>这里注意了，Lambda表达式的前提是目标接口是一个函数式接口（只有一个抽象方法的接口）</p>
+<br>
+
+<br> 
+
+<p>（2）熟悉抽象类的使用</p>
+<br>
+
+<p>【抽象类和接口有什么区别？】</p>
+<p>在设计动机上有所不同，接口是自上而下的，先定义需要实现那些方法，实现类在进行实现。抽象类是自下而上的，发现了多个类的共同逻辑，将公共逻辑封装成一个抽象类，减少代码冗余。接口可以多继承，抽象类不行，抽象类可以有构造函数和成员变量，接口没有构造函数，成员变量只能是常量。</p>
+<br>
+
+<br>
+
+<h4 id="二-异常处理"><a href="#二-异常处理" class="headerlink" title="二. 异常处理"></a>二. 异常处理</h4><br>
+
+<p>（1）理解异常的分类（检查型异常与非检查型异常）</p>
+<p>检查型异常是编译时检查出来的异常，通常要抛出或者捕捉，不能让编译器抛出来。非检查型异常是包括运行时异常（运行逻辑异常）和错误（严重系统问题，比如内存耗尽和栈溢出）。</p>
+<br>
+
+<p>（2）掌握自定义异常的创建和抛出</p>
+<br>
+
+<p>我们看看两种异常的创建和抛出吧</p>
+<br>
+
+<p>检查型异常（继承Exception类）:throw抛出时必须添加到方法签名或者捕捉。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// </span></span><br><span class="line"><span class="comment">// 示例：用户未找到的检查型异常</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserNotFoundException</span> <span class="keyword">extends</span> <span class="title class_">Exception</span> &#123;</span><br><span class="line">    <span class="comment">// 提供构造方法传递错误信息</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">UserNotFoundException</span><span class="params">(String message)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(message);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 可选：添加自定义字段（如错误码）</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> errorCode;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">UserNotFoundException</span><span class="params">(String message, <span class="type">int</span> errorCode)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(message);</span><br><span class="line">        <span class="built_in">this</span>.errorCode = errorCode;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>非检查型异常（继承RuntimeException类）throw抛出时可以不做任何处理</p>
+<br>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 示例：年龄无效的非检查型异常</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">InvalidAgeException</span> <span class="keyword">extends</span> <span class="title class_">RuntimeException</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">InvalidAgeException</span><span class="params">(String message)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(message);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 可选：添加额外逻辑</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getFixSuggestion</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;年龄必须大于 0 且小于 150！&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<br>
+
+<h4 id="三-Java内存管理"><a href="#三-Java内存管理" class="headerlink" title="三. Java内存管理"></a>三. Java内存管理</h4><br>
+
+<p>理解栈与堆的内存分配机制</p>
+<p>熟悉基本的垃圾回收概念</p>
+<br>
+
+<br>
+
+<h4 id="四-常用Java库"><a href="#四-常用Java库" class="headerlink" title="四. 常用Java库"></a>四. 常用Java库</h4><br>
+
+<p>【什么是自动拆箱原理？】</p>
+<p>装箱是使用了包装类的valueOf( )方法，拆箱是调用了比如intValue( )之类的方法。</p>
+<br>
+
+<p>【遇到过自动拆箱导致的空指针异常问题吗？】</p>
+<p>数据库的查询结果中，某个字段为空，映射到的对象的属性为空，如果对这个属性自动拆箱，就会引发空指针异常。</p>
+<br>
+
+<p>掌握常用类库（java.lang，java.util）的使用</p>
+<p>熟悉字符串处理（String，StringBuilder，StringBuffer）</p>
+<br>
+
+<p>【包装类型的常量池技术了解吗】</p>
+<p>java基本类型的包装类大部分都实现了常量池技术。就拿Integer为例，在自动装箱时，对于值在-128到127之间的int类型，会直接返回一个已经缓存的Integer对象，而不是创建新对象。减少内容分配和垃圾回收的负担。</p>
+<br>
+
+<p>【String，StringBuffer和StringBuilder的区别是什么？】</p>
+<p>String是不可变的，适合少量字符串操作</p>
+<p>StringBuffer是可变并且线程安全的，适合多线程环境中的频繁字符串修改。</p>
+<p>StringBuilder是可变并且非线程安全的，适合单线程环境中的高性能字符串处理。</p>
+<br>
+
+<p>【为什么String类型是不可变的？】</p>
+<p>一是字符串常量池会缓存一些字符串对象，多个字符串可以使用一个对象实例，节省内存，但是如果String类型是可变的话，修改字符串会导致其他使用这个字符串的地方出现问题。</p>
+<p>二是多线程环境下，String类型是安全的，不需要担心String被修改的问题。</p>
+<p>三是String类型实现了hashCode方法，String不可变就意味着计算得到的hash值不变，可以保证哈希值的一致性。</p>
+<br>
+
+<p>【重载和重写的区别】</p>
+<p>重载就是同名的方法在不同场景的应用，多个同名的方法通常它们的参数数量以及类型不同。</p>
+<p>重写就是继承父类并且重新实现父类的方法。</p>
+<br>
+
+<p>【深拷贝和浅拷贝了解吗？什么是引用拷贝？】</p>
+<p>浅拷贝创建的对象如果包含引用类型的属性，那这个属性就和原对象对应的属性共用一个内部对象，深拷贝是完全复制整个对象，包括内部对象。</p>
+<br>
+
+<br>
+
+<h4 id="五-输入输出"><a href="#五-输入输出" class="headerlink" title="五. 输入输出"></a>五. 输入输出</h4><br>
+
+<p>（1）理解Java的I&#x2F;O流机制</p>
+<p>（2）熟悉文件的读写操作</p>
+<p>IO流主要分为字节流（InputStream，OutputStream），字符流（Reader，Writer）。</p>
+<br>
+
+<p>【说说文件的读写操作，如何复制文件？】</p>
+<br>
+
+<p>字符流操作文件（不能操作二进制数据，如图片，视频等）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// FileWriter</span></span><br><span class="line"><span class="type">FileWriter</span> <span class="variable">writer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileWriter</span>(<span class="string">&quot;d:/aa/hello.txt&quot;</span>);</span><br><span class="line">writer.write(<span class="string">&quot;hello world&quot;</span>);</span><br><span class="line">writer.write(<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">writer.flush();</span><br><span class="line">writer.close();</span><br><span class="line"></span><br><span class="line"><span class="comment">// BufferedWriter</span></span><br><span class="line"><span class="type">FileWriter</span> <span class="variable">writer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileWriter</span>(<span class="string">&quot;d:/aa/hello.txt&quot;</span>);</span><br><span class="line"><span class="type">BufferedWriter</span> <span class="variable">bufferedWriter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedWriter</span>(writer);</span><br><span class="line">bufferedWriter.write(<span class="string">&quot;hello world&quot;</span>);</span><br><span class="line">bufferedWriter.newLine();</span><br><span class="line">bufferedWriter.close();</span><br><span class="line"></span><br><span class="line"><span class="comment">// BufferedWriter 和 FileWriter 的区别：</span></span><br><span class="line"><span class="comment">// FileWriter效率低，每次来一个字符要查一次码表，BufferWriter缓存区字符满了之后才会查码表，所以如果频繁地写文件，最好使用BufferedWriter处理。</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// FileReader</span></span><br><span class="line"><span class="type">FileReader</span> <span class="variable">reader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">&quot;d:/aa/hello.txt&quot;</span>);</span><br><span class="line"><span class="type">char</span>[] chars = <span class="keyword">new</span> <span class="title class_">char</span>[<span class="number">1024</span>];</span><br><span class="line">reader.skip(<span class="number">4</span>);</span><br><span class="line"><span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> reader.read(chars, <span class="number">0</span>, <span class="number">20</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(chars, <span class="number">0</span>, len);</span><br><span class="line"></span><br><span class="line"><span class="comment">// BufferedReader</span></span><br><span class="line"><span class="type">FileReader</span> <span class="variable">reader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileReader</span>(<span class="string">&quot;d:/aa/hello.txt&quot;</span>);</span><br><span class="line"><span class="type">BufferedReader</span> <span class="variable">bufferedReader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(reader);</span><br><span class="line">String str;</span><br><span class="line">While ((str=bufferedReader.readLine()!=<span class="literal">null</span>)) &#123;</span><br><span class="line">    System.out.println(str);</span><br><span class="line">&#125;</span><br><span class="line">bufferedReader.close();</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>字节流操作文件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// FileInputStream 直接读取原始字节流</span></span><br><span class="line"><span class="type">FileInputStream</span> <span class="variable">fis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="string">&quot;d:/aa/hello.txt&quot;</span>);</span><br><span class="line"><span class="keyword">while</span>(read = fis.read()!=<span class="number">1</span>)</span><br><span class="line">    System.out.println((<span class="type">char</span>)read);</span><br><span class="line">fis.close();</span><br><span class="line"></span><br><span class="line"><span class="comment">// BufferedReader 读取字节流转换为字符流之后的结果</span></span><br><span class="line"><span class="type">FileInputStream</span> <span class="variable">fis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="string">&quot;d:/aa/hello.txt&quot;</span>);</span><br><span class="line"><span class="type">InputStreamReader</span> <span class="variable">isr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(fis, StandardCharsets.UTF_8);</span><br><span class="line"><span class="type">BufferedReader</span> <span class="variable">bufferedReader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(isr);</span><br><span class="line">String read;</span><br><span class="line"><span class="keyword">while</span>((read = bufferedReader.readLine())!=<span class="literal">null</span>) &#123;</span><br><span class="line">    System.out.println(read);</span><br><span class="line">&#125;</span><br><span class="line">fis.close();</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>文件复制：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 多个字节复制</span></span><br><span class="line">FileInputStream fis;</span><br><span class="line">FileOutputStream fos;</span><br><span class="line"><span class="type">byte</span>[] bytes = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span>];</span><br><span class="line"><span class="type">int</span> x;</span><br><span class="line"><span class="keyword">while</span>((x = fis.read(bytes))!=-<span class="number">1</span>) &#123;</span><br><span class="line">    fos.write(bytes, <span class="number">0</span>, x);</span><br><span class="line">&#125;</span><br><span class="line">fis.close();</span><br><span class="line">fos.close();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Buffered+多个字节复制</span></span><br><span class="line"><span class="comment">// 将fis和fos分别转换为BufferedInputStream和BufferedOutputStream,其他步骤一致</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// transferTo方法</span></span><br><span class="line">fis.transferTo(fos);</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<br>
+
+<p>【Java的序列化和反序列化是什么？】</p>
+<p>Java的序列化是对象转换为字节流，用于传输，保存到缓存中或者存储到静态文件中。Java的反序列化是将字节流转换为对象的过程。</p>
+<p>代码实例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Student</span> <span class="keyword">implements</span> <span class="title class_">Seralizable</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">1L</span>; </span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="comment">// 构造方法</span></span><br><span class="line">    <span class="comment">// getter和setter</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 序列化保存到文件</span></span><br><span class="line"><span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;d:/aa/stu.xxx&quot;</span>)</span><br><span class="line"><span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(fos);</span><br><span class="line">oos.writeObject(student);</span><br><span class="line">oos.close();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 反序列化</span></span><br><span class="line"><span class="type">FileInputStream</span> <span class="variable">fis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="string">&quot;d:/aa/stu.xxx&quot;</span>);</span><br><span class="line"><span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(fis);</span><br><span class="line"><span class="type">Stuent</span> <span class="variable">student</span> <span class="operator">=</span> (Student) ois.readObject();</span><br><span class="line">System.out.println(student);</span><br><span class="line">ois.close();</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>【信息的最小存储单位是字节，为什么需要字符流？】</p>
+<p>字符流封装了编码转换，开发者无需关注底层字节与字符的映射。字符流内部使用缓存区，一次读取多个字节并转换为字符，减少I&#x2F;O操作次数。</p>
+<br>
+
+<p>【BIO，NIO和AIO是什么？】</p>
+<p>分别是阻塞，非阻塞和异步输入输出。BIO是如果要进行I&#x2F;O操作的数据被占用，就阻塞，一直等待。NIO是如果要进行I&#x2F;O的数据被占用，立刻返回，即使操作未完成。AIO是不需要等待操作完成。</p>
+<br>
+
+<br>
+
+<h4 id="六-反射-注解-泛型"><a href="#六-反射-注解-泛型" class="headerlink" title="六. 反射&amp;注解&amp;泛型"></a>六. 反射&amp;注解&amp;泛型</h4><br>
+
+<p>【java反射是什么？有什么优点？】</p>
+<p>java的反射机制是指在运行时获取类的结构信息，比如字段方法等，并且操作对象的一种机制。发射机制提供了在运行时动态创建对象，访问字段和调用方法，无需在编译时知道这些类的具体信息。</p>
+<br>
+
+<p>【谈谈对Java注解的理解，解决了什么问题？】</p>
+<p>注解就是一种提供元数据的机制，可以标记在类，属性和方法上。不影响程序的逻辑执行，可以用反射获取注解的元数据。用在框架里就可以简化配置。</p>
+<br>
+
+<p>【Java泛型的作用是什么？泛型擦除指的是什么？】</p>
+<p>Java泛型作用是通过在编译时检查类型安全，避免在运行时发生类型转换的错误。另外，泛型还能使代码适用于多种不同类型，减少代码重复。</p>
+<p>泛型擦除指的是Java编译器在编译时擦除泛型信息，用合适的类来代替泛型类型的参数，通常情况下会用对象的上限来代替这些类型的参数，如果没有指定上限，默认用Object代替。</p>
+<br>
+
+<p>【Java泛型有那些限制？】</p>
+<p>Java泛型的上下界限定符用于对于泛型类型参数进行范围限制，上界限定符（? extends T）表示通配符只能是T类型或者T的子类，通常用于读取操作，下界限定符（? super T）表示通配符只能是T类型或者T类型的父类，通常用于写入操作。</p>
+<br>
+
+<br>
+
+<h4 id="六-基础多线程"><a href="#六-基础多线程" class="headerlink" title="六. 基础多线程"></a>六. 基础多线程</h4><br>
+
+<p>理解线程的创建与启动方式</p>
+<p>掌握基本的线程生命周期管理</p>
+<br>
+
+<br>
+
+<h4 id="七-基础设计模式"><a href="#七-基础设计模式" class="headerlink" title="七. 基础设计模式"></a>七. 基础设计模式</h4><br>
+
+<p>（1）了解基础设计模式</p>
+<p>（2）理解设计模式的适用场景 </p>
+<p>单例模式（饿汉式，懒汉式）</p>
+<p>工厂模式</p>
+<br>
+
+<br>
+
+<h4 id="八-SPI"><a href="#八-SPI" class="headerlink" title="八. SPI"></a>八. SPI</h4><p>这一部分为进阶，之后在做。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java%E5%9F%BA%E7%A1%80/" rel="tag"># Java基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2025/05/11/%E9%9D%A2%E8%AF%95%E7%B3%BB%E5%88%97%E4%B9%8BSpringBoot/" rel="next" title="面试系列之SpringBoot">
+                <i class="fa fa-chevron-left"></i> 面试系列之SpringBoot
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/%E5%8D%9A%E5%AE%A2%E5%A4%B4%E5%83%8F.png"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B"><span class="nav-text">一. 面向对象编程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="nav-text">二. 异常处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89-Java%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-text">三. Java内存管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9B-%E5%B8%B8%E7%94%A8Java%E5%BA%93"><span class="nav-text">四. 常用Java库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%94-%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA"><span class="nav-text">五. 输入输出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%AD-%E5%8F%8D%E5%B0%84-%E6%B3%A8%E8%A7%A3-%E6%B3%9B%E5%9E%8B"><span class="nav-text">六. 反射&amp;注解&amp;泛型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%AD-%E5%9F%BA%E7%A1%80%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-text">六. 基础多线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%83-%E5%9F%BA%E7%A1%80%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-text">七. 基础设计模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%AB-SPI"><span class="nav-text">八. SPI</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">蝉</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
