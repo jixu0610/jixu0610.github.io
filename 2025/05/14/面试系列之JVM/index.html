@@ -89,7 +89,7 @@
 <meta property="og:image" content="d:\blog\hexo\test\source\images\JVM%E7%BB%84%E6%88%90.png">
 <meta property="og:image" content="d:\blog\hexo\test\source\images\%E7%B1%BB%E8%A3%85%E8%BD%BD%E6%B5%81%E7%A8%8B.png">
 <meta property="article:published_time" content="2025-05-14T09:44:16.521Z">
-<meta property="article:modified_time" content="2025-05-15T14:00:44.356Z">
+<meta property="article:modified_time" content="2025-05-16T12:27:36.354Z">
 <meta property="article:author" content="蝉">
 <meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
@@ -432,7 +432,55 @@
 
 <br>
 
-<h4 id="三-内存回收"><a href="#三-内存回收" class="headerlink" title="三. 内存回收"></a>三. 内存回收</h4>
+<h4 id="三-内存回收"><a href="#三-内存回收" class="headerlink" title="三. 内存回收"></a>三. 内存回收</h4><br>
+
+<p>【简述Java垃圾回收机制？】</p>
+<p>垃圾回收机制是为了让程序员更加关注代码的实现，不用过多地考虑内存释放的问题，内存的释放有系统自动识别完成。</p>
+<br>
+
+<p>【对象什么时候可以被垃圾器回收？】</p>
+<p>当对象没有引用指向它时，对象被定位为垃圾并被回收。对象被定位为垃圾的方法有两种：引用计数法，可达性分析算法。</p>
+<p>引用计数法：记录每个对象被引用的次数，当次数为0时，对象被定位为垃圾。</p>
+<p>可达性分析算法：存在一个不可被垃圾回收的根节点，引出它下面指向的下一个节点，下一个节点找出它下面的节点，依次向下类推，直到所有的节点全部遍历完毕。要判断其他对象是否与根对象有直接或间接的引用，如果没有被引用，则可以当做垃圾回收。当对象节点是可回收的，不会立即回收，对象会执行 finalize 方法且只能执行一次，如果执行过程中与根对象产生关联就不在进行回收，否则就进行回收。</p>
+<br>
+
+<p>【JVM垃圾回收算法有哪些？】</p>
+<p>标记清除算法：根据可达性分析算法得出的垃圾进行标记，对这些标记为可回收的内容进行垃圾回收。通过这种方式清理出的内存碎片化比较严重。</p>
+<p>复制算法：将原有的内存空间一分为二，每次只用其中的一块，将正在使用的内存区域中的存活对象复制到另一块内存区域后清空，清理后内存无碎片但是内存使用率较低。</p>
+<p>标记整理算法：将存活的对象都移到内存的另一端，然后清理边界以外的垃圾，解决了碎片化的问题。</p>
+<br>
+
+<p>【说说分代收集算法？】</p>
+<p>对象实例保存到Eden（伊甸园）后将存活的对象用复制算法复制到to区域，释放Eden和from区域的内存，再将to区域的存活对象复制到from区域，幸存区的对象经历几次回收之后就转移到老年代。</p>
+<br>
+
+<p>术语解释：</p>
+<p>MinorGC: 新生代垃圾回收</p>
+<p>MixedGC: G1收集器特有，新生代+老年代部分区域的垃圾回收</p>
+<p>FullGC: 新生代+老年代完整垃圾回收，暂停时间长，要尽量避免</p>
+<br>
+
+<p>【说说JVM由哪些垃圾收集器？】</p>
+<p>JVM有串行，并行，并发，G1垃圾收集器。</p>
+<p>串行垃圾收集器：在一个线程进行垃圾回收时，其他运行的线程阻塞。</p>
+<p>并行垃圾收集器：多个线程同时进行垃圾回收。</p>
+<p>并发垃圾收集器：一个线程并发清理时，其他线程可以正常运行。</p>
+<br>
+
+<p>【详细讲讲G1垃圾回收器】</p>
+<p>G1是应用在jdk9之后的默认回收器。可以划分为多个区域，每个区域都可以充当Eden，survivor，old，humongous，可以进行年轻代垃圾回收，并发标记和混合收集。（1）在区域中挑出一些空闲区域作为伊甸园区，对象实例存储到伊甸园区，再挑一些空闲区域作为幸存区，存活的对象复制到幸存区，随着时间的流逝，伊甸园区的内存不足，将伊甸园区和之前幸存区的对象复制到新的幸存区中，将较老的对象移动到老年代。（2）当老年区的对象所占比例超过内存阈值（默认是45%）时，进行并发标记，为了解决漏标问题，需要暂停所有线程。（3）最后进入混合垃圾回收，将标记的对象回收，优先回收存活对象少的区域。</p>
+<br>
+
+<br>
+
+<h4 id="四-JVM调优"><a href="#四-JVM调优" class="headerlink" title="四. JVM调优"></a>四. JVM调优</h4><br>
+
+<p>【JVM调优的参数有哪些？】</p>
+<p>设置堆的大小，如-Xms和-Xmx</p>
+<p>设置年轻代中Eden区和两个Survivor区的大小比例。</p>
+<p>设置使用哪种垃圾回收器。</p>
+<p>这些参数可以在用java命令启动springboot jar包的时候加入。</p>
+
       
     </div>
     
@@ -555,7 +603,7 @@
               
                 <a href="/">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -610,7 +658,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM%E7%9B%B8%E5%85%B3%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-text">JVM相关面试题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80-JVM%E7%BB%84%E6%88%90"><span class="nav-text">一. JVM组成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-text"></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-text">二. 类加载器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6"><span class="nav-text">三. 内存回收</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM%E7%9B%B8%E5%85%B3%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-text">JVM相关面试题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80-JVM%E7%BB%84%E6%88%90"><span class="nav-text">一. JVM组成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-text"></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-text">二. 类加载器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89-%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6"><span class="nav-text">三. 内存回收</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9B-JVM%E8%B0%83%E4%BC%98"><span class="nav-text">四. JVM调优</span></a></li></ol></li></ol></div>
             
 
           </div>
